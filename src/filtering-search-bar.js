@@ -19,7 +19,7 @@ class FilteringSearchBar extends HTMLElement {
     this.input.addEventListener('keypress', this.handleInput.bind(this));
     this.input.addEventListener('focus', this.handleInput.bind(this));
     this.input.addEventListener('input', this.handleInput.bind(this));
-    this.input.addEventListener('blur', this.handleBlur.bind(this));
+    //this.input.addEventListener('blur', this.handleBlur.bind(this));
   }
 
   @log
@@ -28,7 +28,7 @@ class FilteringSearchBar extends HTMLElement {
     this.input.removeEventListener('keypress', this.handleInput.bind(this));
     this.input.addEventListener('focus', this.handleInput.bind(this));
     this.input.removeEventListener('input', this.handleInput.bind(this));
-    this.input.addEventListener('blur', this.handleBlur.bind(this));
+    //this.input.addEventListener('blur', this.handleBlur.bind(this));
   }
 
   @log
