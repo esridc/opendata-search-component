@@ -12,8 +12,9 @@ import watchAttributes from './decorators/watchAttributes.js';
   'keypress@input': 'handleInput',
   'focus@input': 'handleInput',
   'input@input': 'handleInput',
+  'click@input': 'handleInput',
   'blur@input': function (e) {
-    this.querySelector('ul').innerHTML = '';
+    this.list.innerHTML = '';
   }
 })
 @watchAttributes({
@@ -23,6 +24,8 @@ import watchAttributes from './decorators/watchAttributes.js';
 })
 class FilteringSearchBar extends HTMLElement {
   createdCallback () {
+    this.list = this.querySelectorAll('ul')[0];
+    this.input = this.querySelectorAll('input')[0];
     this.suggestions = [].slice.call(this.querySelectorAll('filtering-search-bar-suggestion')).map((item) =>{
       return item.getAttribute('value');
     });
@@ -30,12 +33,10 @@ class FilteringSearchBar extends HTMLElement {
 
   attachedCallback () {
     // called whenever an element is added to the DOM
-
   }
 
   detachedCallback () {
     // called whenever an element is removed from the DOM
-
   }
 
   attributeChangedCallback(attribute, oldValue, newValue) {
@@ -43,6 +44,7 @@ class FilteringSearchBar extends HTMLElement {
   }
 
   handleInput (e) {
+    console.log('handle input', e);
     var filter = new RegExp(this.input.value, 'i');
     this.list.innerHTML = this.suggestions
     .filter((suggestion) => { return filter.test(suggestion); })

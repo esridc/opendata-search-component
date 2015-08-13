@@ -6,11 +6,11 @@ export default function (attributes) {
 
       if (handler) {
         if (typeof handler === 'function') {
-          return handler.call(target);
+          return handler.call(this);
         }
 
         if (this[handler]) {
-          return this[handler].call(target);
+          return this[handler].call(this);
         }
       }
 

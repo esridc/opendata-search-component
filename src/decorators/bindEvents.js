@@ -1,4 +1,4 @@
-import elementMatchesSelector from '../utils/matchesSelector.js';
+import elementMatchesSelector from '../util/elementMatchesSelector.js';
 
 export default function bindEvent (events) {
   return function (target) {
@@ -13,17 +13,17 @@ export default function bindEvent (events) {
         var handler = (e) => {
           if (!selector || (selector && elementMatchesSelector(e.target, selector))) {
             if (typeof events[key] === 'function') {
-              return events[key].call(target, e);
+              return events[key].call(this, e);
             }
 
             if (this[events[key]]) {
-              return this[events[key]].call(target, e);
+              return this[events[key]].call(this, e);
             }
           }
         };
 
         this.addEventListener(eventName, handler, useCapture);
-        this.boundEvents.push([eventName, handler]);
+        this._boundEvents.push([eventName, handler]);
       }
 
       // call original function
