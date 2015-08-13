@@ -1,6 +1,7 @@
 import log from './logger.js';
 
 class Suggestion extends HTMLElement {
+
   @log
   createdCallback () {
     // called when the element is created
