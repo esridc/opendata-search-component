@@ -12,7 +12,6 @@ import watchAttributes from './decorators/watchAttributes.js';
   'keypress@input': 'handleInput',
   'focus@input': 'handleInput',
   'input@input': 'handleInput',
-  'click@input': 'handleInput',
   'blur@input': function (e) {
     this.list.innerHTML = '';
   }

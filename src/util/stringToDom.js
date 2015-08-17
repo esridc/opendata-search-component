@@ -4,7 +4,7 @@ export default function stringToDom (tagString) {
   // standards land (IE 11+, FF, Chrome, Safari)
   if (document.createRange) {
     var range = document.createRange();
-    range.selectNode(document.getElementsByTagName("html").item(0));
+    range.selectNode(document.getElementsByTagName('html').item(0));
     return range.createContextualFragment(tagString);
   }
 
