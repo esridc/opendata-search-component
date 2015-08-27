@@ -4,23 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && npm run server",
+    "start": "npm run watch | npm run server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run compile && npm run bundle && npm run combine",
-    "compile": "babel src/* src/**/* -d _tmp --blacklist es6.modules -e 0",
-    "bundle": "rollup _tmp/src/filtering-search-bar.js -o dist/bundle.js",
-    "combine": "uglifyjs node_modules/document-register-element/build/document-register-element.js dist/bundle.js -o dist/polyfilled-bundle.js --source-map",
-    "server": "http-server"
+    "watch": "watchify ./src/item-rating-es6.js -o ./dist/item-rating.js -t [ babelify --stage=0 ] --debug --standalone=ItemRating",
+    "server": "http-server . -o -a localhost"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "babel": "^5.8.21",
+    "babelify": "^6.2.0",
+    "browserify": "^11.0.1",
     "http-server": "^0.8.0",
     "rollup": "^0.12.1",
-    "uglify-js": "^2.4.24"
+    "watchify": "^3.3.1"
   },
   "dependencies": {
+    "core-js": "^1.1.1",
+    "custom-event": "^1.0.0",
     "document-register-element": "^0.4.5"
   }
 }

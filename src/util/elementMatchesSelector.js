@@ -1,4 +1,4 @@
-export default function elementMatchesSelector (element, selector) {
+function elementMatchesSelector (element, selector) {
   if (element.matches) {
     return element.matches(selector);
   }
@@ -16,3 +16,5 @@ export default function elementMatchesSelector (element, selector) {
 
   return !!matches[i];
 }
+
+export default elementMatchesSelector;

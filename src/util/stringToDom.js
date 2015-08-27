@@ -1,4 +1,4 @@
-export default function stringToDom (tagString) {
+function stringToDom (tagString) {
   var dom;
 
   // standards land (IE 11+, FF, Chrome, Safari)
@@ -20,3 +20,5 @@ export default function stringToDom (tagString) {
 
   return dom;
 }
+
+export default stringToDom;

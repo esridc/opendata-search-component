@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../calcite-web/css/calcite-web.css">
+  </head>
+  <body>
+    <script src="../node_modules/document-register-element/build/document-register-element.js"></script>
+    <script src="../dist/item-rating.js"></script>
+    <script>
+      // create a new item rating element
+      var itemRating = new ItemRating({
+        rating: 4.25,
+        numRatings: 6,
+        itemId: '30e5fe3149c34df1ba922e6f5bbf808f'
+      });
+
+      // add it to the DOM!
+      document.body.appendChild(itemRating);
+    </script>
+  </body>
+</html>
