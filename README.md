@@ -4,6 +4,30 @@ Simple boilerplate for custom elements, using ES6 but without the overhead of po
 
 For details, see the [custom elements W3C spec](http://w3c.github.io/webcomponents/spec/custom/), or some [other good posts](http://h3manth.com/new/blog/2015/custom-elements-with-es6/)
 
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="calcite-web.css">
+    <script src="item-rating.js"></script>
+  </head>
+  <body>
+    <h1>My Item</h1>
+
+    <item-rating id="item-rating" itemid="30e5fe3149c34df1ba922e6f5bbf808f" numratings="5" rating="4.25">
+
+    <script>
+      var rating = document.getElementById('item-rating');
+      rating.addEventListener('rateitem', function(e) {
+        console.log('Rate Item:', e.detail.rating);
+      });
+    </script>
+
+  </body>
+</html>
+
+```
+
 ## Get going
 
 - `npm install`
