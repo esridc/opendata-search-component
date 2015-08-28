@@ -34,7 +34,8 @@ For details, see the [custom elements W3C spec](http://w3c.github.io/webcomponen
 - [Declarative API](examples/declarative.html)
 - [Programatic API](examples/programatic.html)
 - [With Backbone](examples/backbone-app/index.html)
-- [With Angular 2.0](examples/angular-app/app.ts)
+- [With Angular 1.0](examples/angular-1-app/index.html)
+- [With Angular 2.0](examples/angular-2-app/app.ts)
 - [With Ember 2.0](examples/ember-app/app/components/item-rating.js)
 - [With Aurelia](examples/aurelia-app/src)
 
@@ -76,6 +77,10 @@ The restriction to add custom event to the global registry will still remain. Ho
 ### Angular 2.0
 
 No notes works totally out of the box.
+
+### Angular 1.0
+
+Attribute binding works fine out of the box but in order to bind custom events you must [write a small custom directive](/examples/angular-1-app/index.html#L28-44).
 
 ### Backbone
 
