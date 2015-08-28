@@ -49,6 +49,7 @@ As a rule for maximum compatibility with the largest number of tools you should 
 1. Always use DOM style event names, all lowercase, with no special characters. This helps keep any kind of event mapping magic (Ember) consistent.
 2. Each attribute should always have a corresponding getter and getter that matches the attribute name.
 3. Attributes should always adhere to DOM standards, all lowercase with no special characters. This combined with the above point is essential for Aurelia.
+4. You should always bubble your custom events. This is necessary for Ember (since it uses event delegation to listen to events) and for components to nest inside each other and listen to events
 
 ### Required Polyfills
 
