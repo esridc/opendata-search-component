@@ -8,10 +8,13 @@ For details, see the [custom elements W3C spec](http://w3c.github.io/webcomponen
 
 - `npm install`
 - `npm run start`
-
-http://localhost:8080/examples
+- [Declarative API](examples/declarative.html)
+- [Programatic API](examples/programatic.html)
+- [With Backbone](examples/backbone-app/index.html)
+- [With Angular 2.0](examples/angular-app/app.js)
+- [With Ember 2.0](examples/ember-app/app/compontents/rate-item.js)
+- [With Aurelia](examples/aurelia-app/src)
 
 ## License
 
 MIT
-=
