@@ -57,7 +57,7 @@ As a rule for maximum compatibility with the largest number of tools you should 
 * `document.RegisterElement` - https://github.com/WebReflection/document-register-element and http://caniuse.com/#feat=custom-elements
 * The [Babel polyfill](http://babeljs.io/docs/usage/polyfill/)
 
-All of these polyfills come out to about 25kb minified and gzipped. Most of that is the Babel polyfill which is 22kb minified and gzipped. You could reduce this significantly with a [custom build of core.js](https://github.com/zloirock/core-js#custom-build)
+All of these polyfills come out to about 25kb minified and gzipped. Most of that is the Babel polyfill which is 22kb minified and gzipped. You could reduce this significantly with a [custom build of core.js](https://github.com/zloirock/core-js#custom-build). For example using `core-js/shim` instead of `babel-polyfill` saves about 6-7kb.
 
 ### Browser support
 
