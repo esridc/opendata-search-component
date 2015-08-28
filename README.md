@@ -15,6 +15,8 @@ For details, see the [custom elements W3C spec](http://w3c.github.io/webcomponen
 - [With Ember 2.0](examples/ember-app/app/components/item-rating.js)
 - [With Aurelia](examples/aurelia-app/src)
 
+You may also want to look at the [source code](src/item-rating.js) for the component.
+
 ## Notes
 
 ### Strictly Adhere to DOM Standards
