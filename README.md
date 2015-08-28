@@ -25,7 +25,6 @@ For details, see the [custom elements W3C spec](http://w3c.github.io/webcomponen
 
   </body>
 </html>
-
 ```
 
 ## Get going
