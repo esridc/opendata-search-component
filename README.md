@@ -1,34 +1,17 @@
-# Custom Element Decorators
+# Custom Elements
 
-```js
-@template(`
-  <input type='search'>
-  <ul></ul>
-`)
-@bindEvents({
-  'blur@input[type="search"]': function (e) {}
-  'focus@input[type="search"]': function (e) {}
-}
-@watchAttributes({
-  limit: function (oldValue, newValue) {}
-})
-class MyCustomElement extends HTMLElement {
-  createdCallback () {
+Simple boilerplate for custom elements, using ES6 but without the overhead of polymer.
 
-  }
+For details, see the [custom elements W3C spec](http://w3c.github.io/webcomponents/spec/custom/), or some [other good posts](http://h3manth.com/new/blog/2015/custom-elements-with-es6/)
 
-  attachedCallback () {
+## Get going
 
-  }
+- `npm install`
+- `npm run start`
 
-  detachedCallback () {
+http://localhost:8080/examples
 
-  }
+## License
 
-  attributeChangedCallback () {
-
-  }
-}
-
-document.registerElement('my-custom-element', MyCustomElement);
-```
+MIT
+=

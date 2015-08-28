@@ -25,7 +25,7 @@ var MyAppComponent = (function () {
             selector: 'my-app'
         }),
         angular2_1.View({
-            template: "\n    <item-rating\n      itemid=\"{{itemId}}\"\n      rating=\"{{rating}}\"\n      numratings=\"{{numRatings}}\"\n      (rateitem)=\"rateItem($event)\"></item-rating>"
+            template: "\n    <h1>My Item</h1>\n    <item-rating\n      itemid=\"{{itemId}}\"\n      rating=\"{{rating}}\"\n      numratings=\"{{numRatings}}\"\n      (rateitem)=\"rateItem($event)\"></item-rating>"
         }), 
         __metadata('design:paramtypes', [])
     ], MyAppComponent);

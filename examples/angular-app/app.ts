@@ -6,6 +6,7 @@ import {Component, View, bootstrap} from 'angular2/angular2';
 })
 @View({
   template: `
+    <h1>My Item</h1>
     <item-rating
       itemid="{{itemId}}"
       rating="{{rating}}"
@@ -28,6 +29,5 @@ class MyAppComponent {
     console.log('Rating In Angular:', $event.detail.rating);
   }
 }
-
 
 bootstrap(MyAppComponent);

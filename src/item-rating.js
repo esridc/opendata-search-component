@@ -32,7 +32,7 @@ class ItemRating extends HTMLElement {
       <span class="numRatings">${this.numratings} Ratings</span>
     `);
 
-    // now that we have a dom we can query it and save references to those nodes
+    // now that we have a DOM we can query it and save references to those nodes
     this.starElements = query('a', this);
     this.numRatingElement = query('.numRatings', this)[0];
   }
@@ -118,16 +118,6 @@ class ItemRating extends HTMLElement {
       }
     }));
 
-    if (this.getAttribute('onrateitem')) {
-      var callback = Function(this.getAttribute('onrateitem'));
-      callback.call(new CustomEvent('rateitem', {
-        bubbles: true,
-        detail: {
-          rating: rating
-        }
-      }));
-    }
-
     // alternately this is where we could integrate the JS API directly
     // require([
     //   'esri/request'
@@ -135,7 +125,8 @@ class ItemRating extends HTMLElement {
     //   ...
     // });
 
-    // once the item is updated we can just set the new rating and numrating
+    // once we know the new rating and number of ratings we can just
+    // set them and the UI will update
     // this.rating = newRating; with the new average rating
     // this.numrating = newNumRatings; with the new rating count
   }
