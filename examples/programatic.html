@@ -10,12 +10,30 @@
       // create a new item rating element
       var itemRating = new ItemRating({
         rating: 4.25,
-        numRatings: 6,
-        itemId: '30e5fe3149c34df1ba922e6f5bbf808f'
+        numratings: 6,
+        itemid: '30e5fe3149c34df1ba922e6f5bbf808f'
+      });
+
+      itemRating.addEventListener('rateitem', function (e) {
+        console.log('Rate Item:', e.detail.rating);
       });
 
       // add it to the DOM!
       document.body.appendChild(itemRating);
+
+      //new is optional
+      var itemRating2 = ItemRating({
+        rating: 4.25,
+        numratings: 6,
+        itemid: '30e5fe3149c34df1ba922e6f5bbf808f'
+      });
+
+      itemRating2.addEventListener('rateitem', function (e) {
+        console.log('Rate Item:', e.detail.rating);
+      });
+
+      //add it to the DOM!
+      document.body.appendChild(itemRating2);
     </script>
   </body>
 </html>

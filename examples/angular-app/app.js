@@ -18,7 +18,6 @@ var MyAppComponent = (function () {
         this.numRatings = 6;
     }
     MyAppComponent.prototype.rateItem = function ($event) {
-        console.log($event);
         console.log('Rating In Angular:', $event.detail.rating);
     };
     MyAppComponent = __decorate([
@@ -26,7 +25,7 @@ var MyAppComponent = (function () {
             selector: 'my-app'
         }),
         angular2_1.View({
-            template: "\n    <item-rating\n      item-id=\"{{itemId}}\"\n      rating=\"{{rating}}\"\n      num-ratings=\"{{numRatings}}\"\n      (rateitem)=\"rateItem($event)\">"
+            template: "\n    <item-rating\n      itemid=\"{{itemId}}\"\n      rating=\"{{rating}}\"\n      numratings=\"{{numRatings}}\"\n      (rateitem)=\"rateItem($event)\"></item-rating>"
         }), 
         __metadata('design:paramtypes', [])
     ], MyAppComponent);

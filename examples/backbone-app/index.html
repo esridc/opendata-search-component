@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="//cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/lodash/3.10.1/lodash.min.js"></script>
+    <script src="//cdn.jsdelivr.net/backbonejs/1.2.2/backbone-min.js"></script>
+    <link rel="stylesheet" href="../..//calcite-web/css/calcite-web.css">
+    <script src="../../dist/item-rating.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      var App = Backbone.View.extend({
+        el: $("#app"),
+
+        events: {
+          'rateitem item-rating': 'rateItem'
+        },
+
+        template: _.template('<h1>My Item</h1><item-rating itemid="<%- itemId %>" rating="<%- rating %>" numratings="<%- numRatings%>"></item-rating>'),
+
+        rateItem: function (e) {
+          console.log('Rate Item in Backbone', e.originalEvent.detail.rating);
+        },
+
+        render: function () {
+          return this.$el.html(this.template({
+            itemId:'30e5fe3149c34df1ba922e6f5bbf808f',
+            rating: 4.25,
+            numRatings: 6
+          }));
+        }
+      });
+
+      var app = new App();
+      app.render();
+    </script>
+  </body>
+</html>

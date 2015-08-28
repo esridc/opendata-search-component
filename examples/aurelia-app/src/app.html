@@ -1,0 +1,12 @@
+<template>
+  <section>
+    <h2>My Item</h2>
+
+    <item-rating
+      itemid.bind="itemId"
+      rating.bind="rating"
+      numratings.bind="numRatings"
+      rateitem.delegate=rateItem($event)>
+    </item-rating>
+  </section>
+</template>

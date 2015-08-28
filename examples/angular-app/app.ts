@@ -7,10 +7,10 @@ import {Component, View, bootstrap} from 'angular2/angular2';
 @View({
   template: `
     <item-rating
-      item-id="{{itemId}}"
+      itemid="{{itemId}}"
       rating="{{rating}}"
-      num-ratings="{{numRatings}}"
-      (rateitem)="rateItem($event)">`
+      numratings="{{numRatings}}"
+      (rateitem)="rateItem($event)"></item-rating>`
 })
 // Component controller
 class MyAppComponent {
@@ -25,7 +25,6 @@ class MyAppComponent {
   }
 
   rateItem ($event) {
-    console.log($event);
     console.log('Rating In Angular:', $event.detail.rating);
   }
 }

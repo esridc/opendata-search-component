@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run watch | npm run server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "watchify ./src/item-rating-es6.js -o ./dist/item-rating.js -t [ babelify --stage=0 ] --debug --standalone=ItemRating",
+    "watch": "watchify ./src/item-rating.js -o ./dist/item-rating.js -t [ babelify --stage=0 ] --debug --standalone=ItemRating",
     "server": "http-server . -o -a localhost"
   },
   "author": "",
