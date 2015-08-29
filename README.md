@@ -66,7 +66,7 @@ With the [required polyfills](#required-pollyfills) in place this should work in
 
 ### React
 
-Currently React 0.13 uses a [whitelist of valid HTML attributes](https://github.com/facebook/react/issues/140) so you cannot use non-standard attributes in React. This will be fixed for custom elements with React 0.14.
+Currently React 0.13 uses a [whitelist of valid HTML attributes](https://github.com/facebook/react/issues/140) so you cannot use non-standard attributes in React. This will be fixed for custom elements with React 0.14. With this change custom elements should work totally out of the box.
 
 ### Ember
 
@@ -76,15 +76,15 @@ The restriction to add custom event to the global registry will still remain. Ho
 
 ### Angular 2.0
 
-No notes works totally out of the box.
+Works totally out of the box.
 
 ### Angular 1.0
 
-Attribute binding works fine out of the box but in order to bind custom events you must [write a small custom directive](/examples/angular-1-app/index.html#L28-44).
+Attribute binding works fine out of the box but in order to bind custom events you must [write a small custom directive](/examples/angular-1-app/index.html#L28-L44).
 
 ### Backbone
 
-No notes works totally out of the box.
+Works totally out of the box.
 
 ### Aurelia
 
