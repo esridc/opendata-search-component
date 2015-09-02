@@ -3,7 +3,7 @@
 // import polyfills
 import 'core-js/shim';
 import 'document-register-element/build/document-register-element.max.js';
-import './polyfills/custom-event';
+import './polyfills/custom-event.js';
 import './polyfills/html-element.js';
 
 // import utils
