@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Cross Framework UI Components</title>
+		<title>Cross-Framework UI Components</title>
 
 		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
 		<meta name="author" content="Patrick Arlt">
@@ -73,6 +73,8 @@
 						* [Lots of complexity](https://devtopia.esri.com/WebGIS/arcgis-portal-app/blob/3c04b3bbc030b76976860dc878f9e351c9f395e4/src/js/arcgisonline/sharing/dijit/ItemProperties.js)
 						* [No future in Dojo 2.0](https://dojotoolkit.org/community/roadmap/vision.html#widgets)
 						* [Needs wrapping to use with other tools](https://github.com/Esri/angular-esri-map/blob/master/src/directives/esriLegend.js)
+						* Hard to style
+						* Browsers have standardized
 					</script>
 				</section>
 
@@ -92,6 +94,8 @@
 				<section data-markdown>
 					<script type="text/template">
 						## Web Components
+
+						New web standard for building reusable UI components
 
 						* Custom Elements
 						* Shadow DOM
@@ -291,7 +295,7 @@
 					<script type="text/template">
 						## Building and Compiling
 
-						Require adding a compiler to transform the ES 2015 syntax to current ES 5. We could use either [Babel](https://babeljs.io) or [TypeScript](typescriptlang.org) for this and run ti before the main Dojo build runs.
+						Require adding a compiler to transform the ES 2015 syntax to current ES 5. We could use either [Babel](https://babeljs.io) or [TypeScript](typescriptlang.org) for this and run it before the main Dojo build runs.
 					</script>
 				</section>
 
@@ -317,7 +321,7 @@
 					<script type="text/template">
 						## Localization - Long Term
 
-						Package localizations for each component separately so other teams do not have to rely on Dojo or the ArcGIS Portal apps i18n work. There are several approaches to take but it would have to be discussed in more detail with the teams.
+						Bundle localizations for each component separately so other teams do not have to rely on Dojo to work. This discussed in more detail with the teams.
 					</script>
 				</section>
 
