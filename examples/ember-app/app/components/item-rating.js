@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ItemRating from '../../../../dist/item-rating';
+import ItemRating from './item-rating-core';
 
 // wrap our web component in an Ember component
 // we will have to do this until Ember 2.2
@@ -10,8 +10,8 @@ export default Ember.Component.extend({
 
   // translate the `rateitem` event from our custom element into an
   // action our controller can understand. If this component has a
-  // parent componentyou can opt to just impliment a `rateitem` function
-  // on the component to listen to the event instead of this.
+  // parent component you can opt to just have a `rateitem` function
+  // on the component to handle the event
   rateitem: function (e) {
     this.sendAction(`rateItem`, e.originalEvent);
   }
