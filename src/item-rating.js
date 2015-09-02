@@ -217,10 +217,12 @@ class ItemRating extends HTMLElement {
     this.starElements.forEach((star) => {
       var starRating = parseFloat(star.getAttribute('data-rating'));
 
+      // this sucks, ideally we would also polyfill classList
+      // https://developer.mozilla.org/en-US/docs/Web/API/Element/classList#JavaScript_shim_for_other_implementations
       if (starRating < this.rating) {
-        star.classList.add('icon-ui-blue');
+        star.classList.className('icon-ui-blue icon-ui-favorites link-gray');
       } else {
-        star.classList.remove('icon-ui-blue');
+        star.classList.className('icon-ui-favorites link-gray');
       }
     });
   }
