@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ItemRating from './item-rating-core';
+import ItemRating from '../../../../dist/item-rating';
 
 // wrap our web component in an Ember component
 // we will have to do this until Ember 2.2

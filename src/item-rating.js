@@ -2,7 +2,7 @@
 
 // import polyfills
 import 'core-js/shim';
-import 'document-register-element/build/document-register-element.max.js';
+import 'document-register-element';
 import './polyfills/custom-event.js';
 import './polyfills/html-element.js';
 
@@ -162,7 +162,6 @@ class ItemRating extends HTMLElement {
   }
 
   get numratings () {
-    console.log('getter', this.getAttribute('numratings'));
     return parseFloat(this.getAttribute('numratings'));
   }
 
@@ -180,7 +179,8 @@ class ItemRating extends HTMLElement {
 
   // update the rating of this item
   rate (rating) {
-    // fire an event, we can listen to the event to hook the component up to the API
+    // fire an event, we can listen to the event
+    // to hook the component up to the API
     this.dispatchEvent(new CustomEvent('rateitem', {
       bubbles: true,
       detail: {
@@ -209,6 +209,8 @@ class ItemRating extends HTMLElement {
     if (elementMatchesSelector(e.target, 'a')) {
       var rating = parseFloat(e.target.getAttribute('data-rating'));
       this.rate(rating);
+      e.preventDefault();
+      e.stopPropagation();
     }
   }
 
@@ -217,12 +219,12 @@ class ItemRating extends HTMLElement {
     this.starElements.forEach((star) => {
       var starRating = parseFloat(star.getAttribute('data-rating'));
 
-      // this sucks, ideally we would also polyfill classList
+      // ideally we would also polyfill classList for a better API
       // https://developer.mozilla.org/en-US/docs/Web/API/Element/classList#JavaScript_shim_for_other_implementations
       if (starRating < this.rating) {
-        star.classList.className('icon-ui-blue icon-ui-favorites link-gray');
+        star.className = 'icon-ui-blue icon-ui-favorites link-gray';
       } else {
-        star.classList.className('icon-ui-favorites link-gray');
+        star.className = 'icon-ui-favorites link-gray';
       }
     });
   }
@@ -240,6 +242,5 @@ var ItemRatingElement = document.registerElement('item-rating', ItemRating);
 // now we export a programatic API from this module that
 // will merge a set of initial attributes into our element
 export default function (attributes) {
-  var element = new ItemRatingElement();
-  return Object.assign(element, attributes);
+  return Object.assign(new ItemRatingElement(), attributes);
 }

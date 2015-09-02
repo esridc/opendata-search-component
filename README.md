@@ -38,6 +38,7 @@ For details, see the [custom elements W3C spec](http://w3c.github.io/webcomponen
 - [With Angular 2.0](examples/angular-2-app/app.ts)
 - [With Ember 2.0](examples/ember-app/app/components/item-rating.js)
 - [With Aurelia](examples/aurelia-app/src)
+- [JS API](examples/js-api.html)
 
 You may also want to look at the [source code](src/item-rating.js) for the component or the [PDF presentation](https://github.com/patrickarlt/custom-element-boilerplate/raw/master/Cross-Framework%20UI%20Components.pdf).
 
