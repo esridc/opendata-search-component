@@ -1,3 +1,5 @@
+/* global HTMLElement CustomEvent */
+
 // import polyfills
 import 'custom-event';
 import 'document-register-element';
@@ -36,12 +38,17 @@ class ItemRating extends HTMLElement {
     // now that we have a DOM we can query it and save references to those nodes
     this.starElements = query('a', this);
     this.numRatingElement = query('.numRatings', this)[0];
+
+    // setup an object to hold .watches('prop', callback) listeners
+    this._watches = {
+      '*': []
+    };
   }
 
   // called whenever an element is added to the DOM
   // events should be attached here
   attachedCallback () {
-    // insteed of listening for click events on individial starts it is
+    // instead of listening for click events on individual stars it is
     // better to use delegation becuse it keeps the `this` reference the same
     // and make it easy to remove the listener later
     this.addEventListener('click', this.handleClick);
@@ -55,6 +62,30 @@ class ItemRating extends HTMLElement {
 
   // called whenever an attribute changes on an element
   attributeChangedCallback (attribute, newValue, oldValue) {
+    this._watches[attribute] = this._watches[attribute] || [];
+
+    // do we have listeners registered with .watch('prop', callback)
+    if (this._watches[attribute].length) {
+      for (var i = 0; i < this._watches[attribute].length; i++) {
+        this._watches[attribute][i]({
+          name: attribute,
+          newValue,
+          oldValue
+        });
+      }
+    }
+
+    // do we have global listeners registered with .watch(callback)?
+    if (this._watches['*'].length) {
+      for (var x = 0; x < this._watches[attribute].length; x++) {
+        this._watches['*'][x]({
+          name: attribute,
+          newValue,
+          oldValue
+        });
+      }
+    }
+
     // we can fire an event here if we want to listen for changes
     this.dispatchEvent(new CustomEvent('attributechanged', {
       bubbles: true,
@@ -77,6 +108,43 @@ class ItemRating extends HTMLElement {
 
       case 'itemid':
         break;
+    }
+  }
+
+  // JS API 4.0 equivalent for Accessor.get
+  // but using native getters/setters since we are in IE 9+ land
+  get (name) {
+    return this[name]; // call the getter
+  }
+
+  // JS API 4.0 equivalent for Accessor.set
+  // but using native getters/setters since we are in IE 9+ land
+  set (name, value) {
+    // set('prop', value)
+    if (arguments.length === 2) {
+      this[name] = value; // call the setter
+    }
+
+    // set({ ... })
+    if (arguments.length === 1) {
+      for (let key of name) {
+        this[key] = name[key]; // call each setter in a loop
+      }
+    }
+  }
+
+  // JS API 4.0 equivalent for Accessor.watch
+  watch (name, callback) {
+    // .watch('prop', callback)
+    if (arguments.length === 2) {
+      this._watches[name] = this._watches[name] || [];
+      this._watches[name].push(callback);
+    }
+
+    // .watch(callback)
+    if (arguments.length === 1) {
+      this._watches['*'] = this._watches['*'] || [];
+      this._watches['*'].push(name);
     }
   }
 
@@ -120,6 +188,7 @@ class ItemRating extends HTMLElement {
     }));
 
     // alternately this is where we could integrate the JS API directly
+    // however this creates a tight coupling that makes distribution harder
     // require([
     //   'esri/request'
     // ], function(request){
@@ -165,8 +234,8 @@ class ItemRating extends HTMLElement {
 // that we can use to build a nice programatic API
 var ItemRatingElement = document.registerElement('item-rating', ItemRating);
 
-// now we export a programatic API from this module that will merge a set of initial
-// attributes into our element
+// now we export a programatic API from this module that
+// will merge a set of initial attributes into our element
 export default function (attributes) {
   return Object.assign(new ItemRatingElement(), attributes);
 }
