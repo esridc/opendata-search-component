@@ -30,7 +30,7 @@ For details, see the [custom elements W3C spec](http://w3c.github.io/webcomponen
 ## Get going
 
 - `npm install`
-- `npm run start`
+- `npm start`
 - [Declarative API](examples/declarative.html)
 - [Programatic API](examples/programatic.html)
 - [With Backbone](examples/backbone-app/index.html)
@@ -39,7 +39,7 @@ For details, see the [custom elements W3C spec](http://w3c.github.io/webcomponen
 - [With Ember 2.0](examples/ember-app/app/components/item-rating.js)
 - [With Aurelia](examples/aurelia-app/src)
 
-You may also want to look at the [source code](src/item-rating.js) for the component.
+You may also want to look at the [source code](src/item-rating.js) for the component or the PDF presentation](https://github.com/patrickarlt/custom-element-boilerplate/raw/master/Cross-Framework%20UI%20Components.pdf).
 
 ## Notes
 
