@@ -11,6 +11,7 @@ class ItemRating extends HTMLElement {
 
   // called when the element is first created but after constructor
   createdCallback () {
+
     // insert the HTML structure of this widget
     // note the interpolation of the initial state here
     this.insertAdjacentHTML('afterbegin', `
