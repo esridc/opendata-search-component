@@ -27,7 +27,7 @@
         });
 
         // create a new item rating element, the `new` keyword is optional
-        var itemRating = new ItemRating({
+        window.itemRating = new ItemRating({
           rating: 2.25,
           numratings: 6,
           itemid: '30e5fe3149c34df1ba922e6f5bbf808f'
@@ -37,7 +37,7 @@
           console.log('Rate Item:', e.detail.rating);
 
           // do something to rate the item, i.e. call Portal API
-
+          
           itemRating.set('rating', 4.75);
           itemRating.set('numratings', 7);
         });

@@ -1,9 +1,10 @@
 /* global HTMLElement CustomEvent */
 
 // import polyfills
-import 'custom-event';
-import 'document-register-element';
 import 'core-js/shim';
+import 'document-register-element/build/document-register-element.max.js';
+import 'custom-event';
+import './polyfills/html-element.js';
 
 // import utils
 import elementMatchesSelector from './util/elementMatchesSelector.js';
@@ -13,7 +14,6 @@ class ItemRating extends HTMLElement {
 
   // called when the element is first created but after constructor
   createdCallback () {
-
     // insert the HTML structure of this widget
     // note the interpolation of the initial state here
     this.insertAdjacentHTML('afterbegin', `
@@ -61,7 +61,7 @@ class ItemRating extends HTMLElement {
   }
 
   // called whenever an attribute changes on an element
-  attributeChangedCallback (attribute, newValue, oldValue) {
+  attributeChangedCallback (attribute, oldValue, newValue) {
     this._watches[attribute] = this._watches[attribute] || [];
 
     // do we have listeners registered with .watch('prop', callback)
@@ -162,6 +162,7 @@ class ItemRating extends HTMLElement {
   }
 
   get numratings () {
+    console.log('getter', this.getAttribute('numratings'));
     return parseFloat(this.getAttribute('numratings'));
   }
 
@@ -226,7 +227,7 @@ class ItemRating extends HTMLElement {
 
   // update the count of ratings displayed next to the stars
   updateNumRatings () {
-    this.numRatingElement.innerText = this.numratings + ' Ratings';
+    this.numRatingElement.textContent = this.numratings + ' Ratings';
   }
 }
 
@@ -237,5 +238,6 @@ var ItemRatingElement = document.registerElement('item-rating', ItemRating);
 // now we export a programatic API from this module that
 // will merge a set of initial attributes into our element
 export default function (attributes) {
-  return Object.assign(new ItemRatingElement(), attributes);
+  var element = new ItemRatingElement();
+  return Object.assign(element, attributes);
 }
