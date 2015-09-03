@@ -74,13 +74,12 @@
 						* [No future in Dojo 2.0](https://dojotoolkit.org/community/roadmap/vision.html#widgets)
 						* [Needs wrapping to use with other tools](https://github.com/Esri/angular-esri-map/blob/master/src/directives/esriLegend.js)
 						* Hard to style
-						* Browsers have standardized
 					</script>
 				</section>
 
 				<section data-markdown>
 					<script type="text/template">
-						How can we build modular components compatible with the wide range of build tools, module systems and app frameworks being used at Esri?
+						How can we build UI components with the wide range of build tools, module systems and app frameworks?
 
 						* Angular 1.0 - Developers Site, Open Data Admin
 						* Angular 2.0 - Insights
@@ -116,7 +115,7 @@
 					<script type="text/template">
 						## Shadow DOM
 
-						Create fragments of DOM to separate components styles and scripts from the rest of the page. This makes it easy to isolate components.
+						Create fragments of DOM to isolate styles and scripts in components from the rest of the page.
 					</script>
 				</section>
 
@@ -124,7 +123,7 @@
 					<script type="text/template">
 						## Templates
 
-						Create reusable templates that can be use in components.
+						Create reusable DOM fragments that can be use in components.
 					</script>
 				</section>
 
@@ -132,7 +131,7 @@
 					<script type="text/template">
 						## HTMl Imports
 
-						Combine HTML, CSS, and JavaScript into a single file that can be imported into existing HTML docs.
+						Combine HTML, CSS, and JavaScript into a single file that can be imported via HTML.
 					</script>
 				</section>
 
@@ -163,7 +162,7 @@
 					<script type="text/template">
 						## Practical Web Components
 
-						* Pollyfilled Shadow DOM cannot encapsulate CSS
+						* Polyfilled Shadow DOM cannot encapsulate CSS
 						* Templates are only useful with HTML Imports
 						* Firefox won't support HTML Imports
 					</script>
@@ -289,7 +288,7 @@
 						* Localization
 						* Accessibility
 						* Style Collisions
-						* Boilerplace Heavy
+						* Boilerplate
 					</script>
 				</section>
 
@@ -297,7 +296,7 @@
 					<script type="text/template">
 						## Building and Compiling
 
-						Require adding a compiler to transform the ES 2015 syntax to current ES 5. We could use either [Babel](https://babeljs.io) or [TypeScript](typescriptlang.org) for this and run it before the main Dojo build runs.
+						Require adding a compiler to compile the ES 2015 syntax. We could use either [Babel](https://babeljs.io) or [TypeScript](typescriptlang.org) for this and run it before the main Dojo build runs.
 					</script>
 				</section>
 
@@ -317,7 +316,7 @@
 						const ItemRating.i18n = i18n;
 						```
 
-						This cannot be a permanent solution since components cannot be used outside Portal App.
+						This cannot be a permanent solution since it means components cannot be used outside Portal App.
 					</script>
 				</section>
 
@@ -382,7 +381,7 @@
 
 						Inline styles are becoming a popular way to solve these problems. Libraries like [Radium](https://github.com/FormidableLabs/radium) and [CSS Modules](http://glenmaddern.com/articles/css-modules) might be able to solve these problems in absence of Shadow DOM.
 
-						See [CSS In JS](https://speakerdeck.com/vjeux/react-css-in-js) for more info
+						See [CSS In JS](https://speakerdeck.com/vjeux/react-css-in-js) for more info.
 					</script>
 				</section>
 
@@ -390,7 +389,40 @@
 					<script type="text/template">
 						## Style Collisions - Long Term
 
-						Wait for Shadow DOM to seperate styles inside components. Probally combined with a  midterm solution to build styles.
+						Wait for Shadow DOM to seperate styles inside components. Probally combined with a  mid-term solution to bundle styles with components.
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Boilerplate
+
+						Currently custom elements require lots of boilerplate, setting up attributes, events, properties, ect... is extremely time consuming.
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Boilerplate - Solution
+
+						Project like Ember, Angular, React and TypeScript are embracing the [ES 7 decorator spec](https://github.com/wycats/javascript-decorators). Using decorators would eliminate loads of boilerplate.
+
+						```js
+						@attribute('itemid', String)
+						@attribute('rating', Number)
+						@attribute('numratings', Number)
+						@bindEvent('click', 'a', 'handleStarClick')
+						@watchAttribute('rating', 'updateRating')
+						@watchAttribute('numratings', 'updateNumRatings')
+						@Accessor()
+						class ItemRating extends HTMLElement {
+						  // ...
+
+						  handleStarClick () { /* ... */ }
+						  updateRating () { /* ... */ }
+						  updateNumRatings () { /* ... */ }
+						}
+						```
 					</script>
 				</section>
 
@@ -413,6 +445,10 @@
 						## Implementation
 
 						As much as possible components should not know about the JS API or the REST APIs.
+
+						---
+
+						UI component shouldn't be dealing with bussiness logic. Some components might needs maps ect... were we would need to break this pattern.
 					</script>
 				</section>
 

@@ -67,20 +67,6 @@ export default function watchAttribute (attribute, handler) {
 }
 ```
 
-## `@template`
-
-Prepends a template string to this element upon creation.
-
-```js
-@template(`
-  <span class="count">${this.count}</span>
-  <button type="button">Add</button>
-`)
-class MyElement extends HTMLElement {
- // ...
-}
-```
-
 ```js
 // impossible without a full template library
 // due to this way ES 6 template strings work
@@ -237,19 +223,12 @@ export default function () {
 ## `<item-rating>` with decorators
 
 ```js
-// import polyfills
-import 'custom-event';
-import 'document-register-element';
-import 'core-js/shim';
 
 // import decorators
 import attribute from './decorators/template.js';
 import bindEvent from './decorators/bindEvents.js';
 import watchAttribute from './decorators/watchAttributes.js';
 import Accessor form './decorators/Accessor.js';
-
-// import utils
-import query from './util/query.js';
 
 @attribute('itemid', String)
 @attribute('rating', Number)
@@ -284,8 +263,8 @@ class ItemRating extends HTMLElement {
     `);
 
     // now that we have a DOM we can query it and save references to those nodes
-    this.starElements = query('a', this);
-    this.numRatingElement = query('.numRatings', this)[0];
+    this.starElements = this.querySelectorAll('a');
+    this.numRatingElement = this.querySelector('.numRatings');
   }
 
   // update the rating of this item
@@ -296,24 +275,17 @@ class ItemRating extends HTMLElement {
         rating: rating
       }
     }));
-
-    // update the rating via the api
-    // this.rating = newRating; with the new average rating
-    // this.numRating = newNumRatings; with the new rating count
-    // this.dispatchEvent(new CustomEvent('ratingupdated', {rating: 5})); fire an eveng with the new rating
   }
 
-  // handle the click evend and update the rating
+  // handle the click event and update the rating
   handleClick (e) {
-    if(elementMatchesSelector(e.target, 'a')) {
-      var rating = parseFloat(e.target.getAttribute('data-rating'));
-      this.rate(rating);
-    }
+    var rating = parseFloat(e.target.getAttribute('data-rating'));
+    this.rate(rating);
   }
 
   // update the stars to reflect the rating
   updateRating () {
-    this.starElements.forEach((star) => {
+    for (let star of this.starElements) {
       var starRating = parseFloat(star.getAttribute('data-rating'));
 
       // ideally we would also polyfill classList for a better API
@@ -322,8 +294,8 @@ class ItemRating extends HTMLElement {
         star.className = 'icon-ui-blue icon-ui-favorites link-gray';
       } else {
         star.className = 'icon-ui-favorites link-gray';
-      }
-    });
+      }      
+    }
   }
 
   // update the count of ratings displayed next to the stars
