@@ -289,6 +289,7 @@
 						* Localization
 						* Accessibility
 						* Style Collisions
+						* Boilerplace Heavy
 					</script>
 				</section>
 
@@ -315,6 +316,26 @@
 
 						const ItemRating.i18n = i18n;
 						```
+
+						This cannot be a permanent solution since components cannot be used outside Portal App.
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Localization - Short-Mid Term
+
+						Pass i18n strings in as attributes. This means we can use existing i18n capabilities from Dojo or other frameworks.
+
+						```html
+						<arcgis-item-rating
+							itemid="30e5fe3149c34df1ba922e6f5bbf808f"
+							numratings="6"
+							rating="4.25"
+							i18n.rating="Rating"
+							i18n.ratings="Ratings"
+							i18n.poor="Poor"></arcgis-item-rating>
+						```
 					</script>
 				</section>
 
@@ -322,7 +343,7 @@
 					<script type="text/template">
 						## Localization - Long Term
 
-						Bundle localizations for each component separately so other teams do not have to rely on Dojo to work. This discussed in more detail with the teams.
+						Bundle localizations for each component separately so other teams do not have to rely on an existing i18n library. This should discussed in more detail with the teams.
 					</script>
 				</section>
 
@@ -336,13 +357,38 @@
 
 				<section data-markdown>
 					<script type="text/template">
-						## Style Collisions
+						## Style Collisions - Short Term
 
-						We may run into situations where styles from elements bleed into each other.
+						Global CSS will cause all sorts of problems with styles colliding. In the short term for Portal App we can assume Calcite Web will be present.
+					</script>
+				</section>
 
-						1. Assume Calcite Web will be used
-						2. Keep component structure simple
-						3. Namespace all CSS selectors
+				<section data-markdown>
+					<script type="text/template">
+						## Style Collisions - Mid Term
+
+						In a perfect world we would use Shadow DOM to seperate styles inside components, but baring full shadow DOM support from browsers we should:
+
+						1. Use only namespaced selectors `.item-rating-tooltip`
+						2. Leverage SASS `@extend` to map `.item-rating-tooltip` to the tooltip styles.
+
+						This means we can support both Calcite Web and Calcite Bootstrap.
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Style Collisions - Short-Mid Term
+
+						In a perfect world we would use Shadow DOM to seperate styles inside components
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Style Collisons - Long Term
+
+						Inline styles are becoming a popular way to solve these problems. Libraries like [Radium](https://github.com/FormidableLabs/radium) and [CSS Modules](http://glenmaddern.com/articles/css-modules) might be able to solve these problems in absence of Shadow DOM.
 					</script>
 				</section>
 
