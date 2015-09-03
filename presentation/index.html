@@ -367,28 +367,30 @@
 					<script type="text/template">
 						## Style Collisions - Mid Term
 
-						In a perfect world we would use Shadow DOM to seperate styles inside components, but baring full shadow DOM support from browsers we should:
+						Baring full shadow DOM support from browsers we should:
 
-						1. Use only namespaced selectors `.item-rating-tooltip`
-						2. Leverage SASS `@extend` to map `.item-rating-tooltip` to the tooltip styles.
+						1. Namespaced selectors `.item-rating-tooltip`
+						2. Use SASS `@extend` to map `.item-rating-tooltip` to proper styles.
 
-						This means we can support both Calcite Web and Calcite Bootstrap.
+						Can support both Calcite Web and Calcite Bootstrap.
 					</script>
 				</section>
 
 				<section data-markdown>
 					<script type="text/template">
-						## Style Collisions - Short-Mid Term
-
-						In a perfect world we would use Shadow DOM to seperate styles inside components
-					</script>
-				</section>
-
-				<section data-markdown>
-					<script type="text/template">
-						## Style Collisons - Long Term
+						## Style Collisons - Mid Term
 
 						Inline styles are becoming a popular way to solve these problems. Libraries like [Radium](https://github.com/FormidableLabs/radium) and [CSS Modules](http://glenmaddern.com/articles/css-modules) might be able to solve these problems in absence of Shadow DOM.
+
+						See [CSS In JS](https://speakerdeck.com/vjeux/react-css-in-js) for more info
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						## Style Collisions - Long Term
+
+						Wait for Shadow DOM to seperate styles inside components. Probally combined with a  midterm solution to build styles.
 					</script>
 				</section>
 
