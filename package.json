@@ -1,12 +1,12 @@
 {
-  "name": "web-component-boilerplate",
+  "name": "opendata-search-component",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "npm run watch | npm run server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "watchify ./src/item-rating.js -o ./dist/item-rating.js -t [ babelify --stage 0 --loose es6.classes ] --debug --standalone=ItemRating",
+    "watch": "watchify ./src/opendata-search.js -o ./dist/opendata-search.js -t [ babelify --stage 0 --loose es6.classes ] --debug --standalone=OpendataSearch",
     "server": "http-server . -o -a localhost"
   },
   "author": "",
