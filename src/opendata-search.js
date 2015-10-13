@@ -94,7 +94,7 @@ class OpendataSearch extends HTMLElement {
 
   handleSubmit (evt) {
     evt.preventDefault();
-    this.resultsContainerEl.innerHtml = '';
+    this.resultsContainerEl.innerHTML = '';
     var url = this.getUrl(this.inputEl.value)
     xhr(url, this.handleResults.bind(this), this.handleError.bind(this));
   }
