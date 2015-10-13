@@ -3,22 +3,14 @@
 
 /*
   TODO:
-    ie9 might need to be persuaded to do cors
-    try using yield style approach....
-    css include bare bones styles packaged with the component
-    i18n
-    no results message
+    no results message, results item template
     raise events to the outside world
-    are we using all the imports below?
-    pagination
-    loading indicator???
-    attributes:
-      label
-      placeholder
-      url
     other url parameters (per_page, keywords...)
-    autocomplete
-    location...
+    other features for down the road:
+      pagination (this could possibly be done from outside using events)
+      loading indicator (this could possibly be done from outside using events)
+      autocomplete
+      location...
 */
 
 
@@ -29,7 +21,6 @@ import './polyfills/custom-event.js';
 import './polyfills/html-element.js';
 
 // import utils
-import elementMatchesSelector from './util/elementMatchesSelector.js';
 import query from './util/query.js';
 import xhr from './util/xhr.js';
 
@@ -37,14 +28,14 @@ class OpendataSearch extends HTMLElement {
 
   // called when the element is first created but after constructor
   createdCallback () {
-    //insert base styles
+    //insert base styles note - the scoped attribute will not work in most browsers
     this.insertAdjacentHTML('afterbegin', `
-      <style>
+      <style scoped>
         opendata-search label {
-          color: blue;
+          /*color: blue;*/
         }
         opendata-search .od-search-results-item {
-          padding: 10px;
+          padding: 5px;
         }
         opendata-search .od-search-results-item h1 {
           margin: 0;
@@ -53,18 +44,22 @@ class OpendataSearch extends HTMLElement {
       <style>
     `);
 
-    // insert the HTML structure of this widget
-    // note the interpolation of the initial state here
-    this.insertAdjacentHTML('afterbegin', `
-      <form>
-        <label>Search for:</label>
-        <input type="search">
-        <button type="submit">Search</button>
-      </form>
-      <div class="od-search-results-container">
+    // insert the HTML structure of this widget if it was not provided
+    if (query('form input', this).length === 0) {
+      this.insertAdjacentHTML('beforeend', `
+        <form>
+          <label>Search for:</label>
+          <input type="search">
+          <button type="submit">Search</button>
+        </form>
+      `);
+    }
 
-      </div>
-    `);
+    if (query('.od-search-results-container', this).length === 0) {
+      this.insertAdjacentHTML('beforeend', `
+        <div class="od-search-results-container"></div>
+      `);
+    }
 
     // now that we have a DOM we can query it and save references to those nodes
     this.formEl = query('form', this)[0];
