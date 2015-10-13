@@ -2,9 +2,9 @@
 
 /*
   TODO:
-    other url parameters: fields="title,tags,created_at,download_links"
-    no results message - via template?
     unit tests & integration tests
+    documentation
+    other url parameters: fields="title,tags,created_at,download_links"
     other features for down the road:
       pagination (this could possibly be done from outside using events)
       loading indicator (this could possibly be done from outside using events)
@@ -29,6 +29,7 @@ class OpendataSearch extends HTMLElement {
   createdCallback () {
     // defaults
     this.api = this.api || 'http://opendata.arcgis.com';
+    this.q = this.q || '';
     this.limit = this.limit || 10;
     this.sort = this.sort || ''; //use api default
     this.group = this.group || '';
@@ -88,6 +89,15 @@ class OpendataSearch extends HTMLElement {
         </li>
       `);
     }
+
+    // compile the no results template
+    if (query('#od_no_results_template', this).length > 0) {
+      this.noResultsTemplate = tmpl('od_no_results_template');
+    } else {
+      this.noResultsTemplate = tmpl(`
+        No results found for '<%=q%>'
+      `);
+    }
   }
 
   // called whenever an element is added to the DOM
@@ -108,6 +118,7 @@ class OpendataSearch extends HTMLElement {
   handleSubmit (evt) {
     evt.preventDefault();
     evt.stopPropagation();
+    this.q = this.inputEl.value;
     let url = this.searchUrl(this.inputEl.value);
     this.search(url);
   }
@@ -154,10 +165,12 @@ class OpendataSearch extends HTMLElement {
   }
 
   insertResults (data) {
-    if (data) {
+    if (data && data.length) {
       // TODO: there are probably more performant ways of doing this...
       var els = data.map(this.resultItemTemplate);
       this.resultsContainerEl.insertAdjacentHTML('beforeend', els.join(''));
+    } else {
+      this.resultsContainerEl.insertAdjacentHTML('beforeend', this.noResultsTemplate(this));
     }
   }
 
@@ -218,6 +231,14 @@ class OpendataSearch extends HTMLElement {
 
   set group (group) {
     this.setAttribute('group', group);
+  }
+
+  get q () {
+    return this.getAttribute('q');
+  }
+
+  set q (q) {
+    this.setAttribute('q', q);
   }
 
 }

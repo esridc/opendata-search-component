@@ -1,3 +1,8 @@
+// based on http://ejohn.org/blog/javascript-micro-templating/
+// John Resig - http://ejohn.org/ - MIT Licensed
+
+// if this proves insufficient, we could use something like: http://olado.github.io/doT/
+
 var cache = {};
 
 function tmpl(str, data){
