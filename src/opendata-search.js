@@ -95,14 +95,10 @@ class OpendataSearch extends HTMLElement {
     evt.preventDefault();
     this.resultsContainerEl.innerHtml = '';
     var url = this.getUrl(this.inputEl.value)
-    xhr(url, this.handleResults.bind(this));
+    xhr(url, this.handleResults.bind(this), this.handleError.bind(this));
   }
 
   handleResults (response) {
-    if (typeof response === 'string') {
-      response = JSON.parse(response);
-    }
-
     // TODO: there are cleaner, more performant ways of doing this...
     if (response.data) {
       response.data.forEach(function (item) {
@@ -117,6 +113,10 @@ class OpendataSearch extends HTMLElement {
         `);
       }.bind(this));
     }
+  }
+
+  handleError (xhr) {
+    alert('error...');
   }
 
   getUrl (q) {

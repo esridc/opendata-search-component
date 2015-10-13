@@ -13,11 +13,12 @@ function sendRequest(url, callback, errback) {
   xhr.onprogress = function() {}; // persuade ie to not abort
   xhr.ontimeout = function() {}; // persuade ie to not abort
   xhr.onload = function() {
-    debugger;
     if (xhr.status === 200) {
       if (callback) {
         callback(xhr.response);
       }
+    } else if (xhr.responseText) {
+      callback(JSON.parse(xhr.responseText));
     }
     else {
       if (errback) {
@@ -26,7 +27,6 @@ function sendRequest(url, callback, errback) {
     }
   };
   xhr.onerror = function() {
-    debugger;
     errback(xhr);
   };
 
