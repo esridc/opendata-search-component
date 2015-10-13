@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run watch | npm run server",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/karma/bin/karma start",
     "watch": "watchify ./src/opendata-search.js -o ./dist/opendata-search.js -t [ babelify --stage 0 --loose es6.classes ] --debug --standalone=OpendataSearch",
     "server": "http-server . -o -a localhost"
   },
@@ -16,6 +16,14 @@
     "babelify": "^6.2.0",
     "browserify": "^11.0.1",
     "http-server": "^0.8.0",
+    "jasmine": "^2.3.2",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.10",
+    "karma-browserify": "^4.4.0",
+    "karma-chrome-launcher": "^0.2.1",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "phantomjs": "^1.9.18",
     "rollup": "^0.12.1",
     "watchify": "^3.3.1"
   },

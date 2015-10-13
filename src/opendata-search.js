@@ -2,7 +2,7 @@
 
 /*
   TODO:
-    unit tests & integration tests
+    unit tests & integration tests - test declarative usage...
     documentation
     other url parameters: fields="title,tags,created_at,download_links"
     other features for down the road:
@@ -28,7 +28,7 @@ class OpendataSearch extends HTMLElement {
   // called when the element is first created but after constructor
   createdCallback () {
     // defaults
-    this.api = this.api || 'http://opendata.arcgis.com';
+    this.api = this.api === '/' ? 'http://opendata.arcgis.com' : this.api;
     this.q = this.q || '';
     this.limit = this.limit || 10;
     this.sort = this.sort || ''; //use api default
@@ -185,11 +185,11 @@ class OpendataSearch extends HTMLElement {
   }
 
   searchUrl (q) {
-    return `${this.api}datasets.json?q=${q}&per_page=${this.limit}&sort_by=${this.sort}&group_id=${this.group}`;
+    return `${this.api}datasets.json?q=${this.q}&per_page=${this.limit}&sort_by=${this.sort}&group_id=${this.group}`;
   }
 
   itemUrl (itemId) {
-    return `${this.api}`;
+    return `${this.api}datasets/${itemId}.json`;
   }
 
   // dom attributes also map to properties on the object
@@ -199,7 +199,7 @@ class OpendataSearch extends HTMLElement {
   // it also will make the programatic API easier
 
   get api () {
-    let api = this.getAttribute('api');
+    let api = this.getAttribute('api') || '';
     // make sure there's a trailing slash
     api = api.replace(/\/$/, '') + '/';
     return api;
