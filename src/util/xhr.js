@@ -4,7 +4,13 @@
 
 //I think something like this would actually work on all browsers we support
 function sendRequest(url, callback, errback) {
-  let xhr = new XMLHttpRequest();
+  var xhr;
+  if (window.XDomainRequest) xhr = new XDomainRequest();
+  else if (window.XMLHttpRequest) xhr = new XMLHttpRequest();
+  else xhr = new ActiveXObject("Microsoft.XMLHTTP");
+
+
+  //let xhr = new XMLHttpRequest();
   xhr.open('GET', encodeURI(url));
   xhr.responseType = 'json';
   xhr.onload = function(foo) {
