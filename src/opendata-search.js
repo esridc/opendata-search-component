@@ -3,11 +3,12 @@
 
 /*
   TODO:
+    ie9 might need to be persuaded to do cors
+    try using yield style approach....
     css include bare bones styles packaged with the component
     i18n
-    we use function.bind...
+    no results message
     are we using all the imports below?
-    ie9 might need to be persuaded to do cors
     pagination
     loading indicator???
     attributes:

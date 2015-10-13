@@ -8,9 +8,7 @@ function sendRequest(url, callback, errback) {
   if (window.XDomainRequest) xhr = new XDomainRequest();
   else if (window.XMLHttpRequest) xhr = new XMLHttpRequest();
   else xhr = new ActiveXObject("Microsoft.XMLHTTP");
-
-
-  //let xhr = new XMLHttpRequest();
+debugger;
   xhr.open('GET', encodeURI(url));
   xhr.responseType = 'json';
   xhr.onload = function(foo) {
