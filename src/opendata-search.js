@@ -8,6 +8,7 @@
     css include bare bones styles packaged with the component
     i18n
     no results message
+    raise events to the outside world
     are we using all the imports below?
     pagination
     loading indicator???
