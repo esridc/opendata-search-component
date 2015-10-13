@@ -1,18 +1,16 @@
 /* global HTMLElement CustomEvent */
 
-
 /*
   TODO:
-    no results message, results item template
-    raise events to the outside world
-    other url parameters (per_page, keywords...)
+    other url parameters: fields="title,tags,created_at,download_links"
+    no results message - via template?
+    unit tests & integration tests
     other features for down the road:
       pagination (this could possibly be done from outside using events)
       loading indicator (this could possibly be done from outside using events)
       autocomplete
       location...
 */
-
 
 // import polyfills
 import 'core-js/shim';
@@ -23,16 +21,26 @@ import './polyfills/html-element.js';
 // import utils
 import query from './util/query.js';
 import xhr from './util/xhr.js';
+import tmpl from './util/tmpl.js';
 
 class OpendataSearch extends HTMLElement {
 
   // called when the element is first created but after constructor
   createdCallback () {
-    //insert base styles note - the scoped attribute will not work in most browsers
+    // defaults
+    this.api = this.api || 'http://opendata.arcgis.com';
+    this.limit = this.limit || 10;
+    this.sort = this.sort || ''; //use api default
+    this.group = this.group || '';
+
+    // insert base styles
+    // note - the scoped attribute will not work in most browsers
     this.insertAdjacentHTML('afterbegin', `
       <style scoped>
-        opendata-search label {
-          /*color: blue;*/
+        opendata-search .od-search-results {
+          list-style: none;
+          margin: 0;
+          padding: 0;
         }
         opendata-search .od-search-results-item {
           padding: 5px;
@@ -55,21 +63,31 @@ class OpendataSearch extends HTMLElement {
       `);
     }
 
-    if (query('.od-search-results-container', this).length === 0) {
+    if (query('.od-search-results', this).length === 0) {
       this.insertAdjacentHTML('beforeend', `
-        <div class="od-search-results-container"></div>
+        <ul class="od-search-results"></ul>
       `);
     }
 
     // now that we have a DOM we can query it and save references to those nodes
     this.formEl = query('form', this)[0];
     this.inputEl = query('input', this)[0];
-    this.resultsContainerEl = query('.od-search-results-container', this)[0];
+    this.resultsContainerEl = query('.od-search-results', this)[0];
 
-    // setup an object to hold .watches('prop', callback) listeners
-    this._watches = {
-      '*': []
-    };
+    // compile the results item template
+    if (query('#od_result_item_template', this).length > 0) {
+      this.resultItemTemplate = tmpl('od_result_item_template');
+    } else {
+      this.resultItemTemplate = tmpl(`
+        <li class="od-search-results-item">
+          <h1>
+            <a href="<%=dataset_url%>" target="_blank">
+              <%=name%>
+            </a>
+          </h1>
+        </li>
+      `);
+    }
   }
 
   // called whenever an element is added to the DOM
@@ -89,128 +107,76 @@ class OpendataSearch extends HTMLElement {
 
   handleSubmit (evt) {
     evt.preventDefault();
+    evt.stopPropagation();
+    let url = this.searchUrl(this.inputEl.value);
+    this.search(url);
+  }
+
+  search (url) {
+    this.dispatchEvent(new CustomEvent('before:search', {
+      bubbles: true,
+      detail: {
+        url: url
+      }
+    }));
+
     this.resultsContainerEl.innerHTML = '';
-    var url = this.getUrl(this.inputEl.value)
+
     xhr(url, this.handleResults.bind(this), this.handleError.bind(this));
   }
 
   handleResults (response) {
-    // TODO: there are cleaner, more performant ways of doing this...
-    if (response.data) {
-      response.data.forEach(function (item) {
-        this.resultsContainerEl.insertAdjacentHTML('beforeend', `
-          <div class="od-search-results-item">
-            <h1>
-              <a href="${this.getItemUrl(item.id)}" target="_blank">
-                ${item.name}
-              </a>
-            </h1>
-          </div>
-        `);
-      }.bind(this));
+    this.dispatchEvent(new CustomEvent('after:search', {
+      bubbles: true,
+      detail: {
+        results: response
+      }
+    }));
+    this.dispatchEvent(new CustomEvent('before:results', {
+      bubbles: true,
+      detail: {
+        results: response
+      }
+    }));
+
+    response.data = response.data.map(function (item) {
+      item.dataset_url = this.itemUrl(item.id);
+      return item;
+    }.bind(this));
+    this.insertResults(response.data);
+
+    this.dispatchEvent(new CustomEvent('after:results', {
+      bubbles: true,
+      detail: {
+        results: response
+      }
+    }));
+  }
+
+  insertResults (data) {
+    if (data) {
+      // TODO: there are probably more performant ways of doing this...
+      var els = data.map(this.resultItemTemplate);
+      this.resultsContainerEl.insertAdjacentHTML('beforeend', els.join(''));
     }
   }
 
   handleError (xhr) {
-    alert('error...');
-  }
-
-  getUrl (q) {
-    var url = this.get('api');
-    return url + '/datasets.json?q=' + q;
-  }
-
-  getItemUrl (itemId) {
-    var url = this.get('api');
-    return url + '/datasets/' + itemId;
-  }
-
-  // called whenever an attribute changes on an element
-  // attributeChangedCallback (attribute, oldValue, newValue) {
-  //   this._watches[attribute] = this._watches[attribute] || [];
-  //
-  //   // do we have listeners registered with .watch('prop', callback)
-  //   if (this._watches[attribute].length) {
-  //     for (var i = 0; i < this._watches[attribute].length; i++) {
-  //       this._watches[attribute][i]({
-  //         name: attribute,
-  //         newValue,
-  //         oldValue
-  //       });
-  //     }
-  //   }
-  //
-  //   // do we have global listeners registered with .watch(callback)?
-  //   if (this._watches['*'].length) {
-  //     for (var x = 0; x < this._watches[attribute].length; x++) {
-  //       this._watches['*'][x]({
-  //         name: attribute,
-  //         newValue,
-  //         oldValue
-  //       });
-  //     }
-  //   }
-  //
-  //   // we can fire an event here if we want to listen for changes
-  //   this.dispatchEvent(new CustomEvent('attributechanged', {
-  //     bubbles: true,
-  //     detail: {
-  //       attribute,
-  //       newValue,
-  //       oldValue
-  //     }
-  //   }));
-  //
-  //   // and we can bind custom behavior when attributes change
-  //   switch (attribute) {
-  //     case 'numratings':
-  //       this.updateNumRatings();
-  //       break;
-  //
-  //     case 'rating':
-  //       this.updateRating();
-  //       break;
-  //
-  //     case 'itemid':
-  //       break;
-  //   }
-  // }
-
-  // JS API 4.0 equivalent for Accessor.get
-  // but using native getters/setters since we are in IE 9+ land
-  get (name) {
-    return this[name]; // call the getter
-  }
-
-  // JS API 4.0 equivalent for Accessor.set
-  // but using native getters/setters since we are in IE 9+ land
-  set (name, value) {
-    // set('prop', value)
-    if (arguments.length === 2) {
-      this[name] = value; // call the setter
-    }
-
-    // set({ ... })
-    if (arguments.length === 1) {
-      for (let key of name) {
-        this[key] = name[key]; // call each setter in a loop
+    console.error('opendata-search failed to fetch data from ', this.searchUrl());
+    this.dispatchEvent(new CustomEvent('error', {
+      bubbles: true,
+      detail: {
+        url: this.searchUrl()
       }
-    }
+    }));
   }
 
-  // JS API 4.0 equivalent for Accessor.watch
-  watch (name, callback) {
-    // .watch('prop', callback)
-    if (arguments.length === 2) {
-      this._watches[name] = this._watches[name] || [];
-      this._watches[name].push(callback);
-    }
+  searchUrl (q) {
+    return `${this.api}datasets.json?q=${q}&per_page=${this.limit}&sort_by=${this.sort}&group_id=${this.group}`;
+  }
 
-    // .watch(callback)
-    if (arguments.length === 1) {
-      this._watches['*'] = this._watches['*'] || [];
-      this._watches['*'].push(name);
-    }
+  itemUrl (itemId) {
+    return `${this.api}`;
   }
 
   // dom attributes also map to properties on the object
@@ -220,69 +186,40 @@ class OpendataSearch extends HTMLElement {
   // it also will make the programatic API easier
 
   get api () {
-    return this.getAttribute('api');
+    let api = this.getAttribute('api');
+    // make sure there's a trailing slash
+    api = api.replace(/\/$/, '') + '/';
+    return api;
   }
 
   set api (itemid) {
     this.setAttribute('api', itemid);
   }
 
-  // update the rating of this item
-  // rate (rating) {
-  //   // fire an event, we can listen to the event
-  //   // to hook the component up to the API
-  //   this.dispatchEvent(new CustomEvent('rateitem', {
-  //     bubbles: true,
-  //     detail: {
-  //       rating: rating
-  //     }
-  //   }));
-  //
-  //   // alternately this is where we could integrate the JS API directly
-  //   // however this creates a tight coupling that makes distribution harder
-  //   // require([
-  //   //   'esri/request'
-  //   // ], function(request){
-  //   //   ...
-  //   // });
-  //
-  //   // once we know the new rating and number of ratings we can just
-  //   // set them and the UI will update
-  //   // this.rating = newRating; with the new average rating
-  //   // this.numrating = newNumRatings; with the new rating count
-  // }
+  get limit () {
+    return parseFloat(this.getAttribute('limit'));
+  }
 
-  // handle the click event from a start and update the rating
-  // handleClick (e) {
-  //   // figure out if we clicked on an anchor tag, since the event is bubbling
-  //   // up we do not have to check if the event target is a child of this element
-  //   if (elementMatchesSelector(e.target, 'a')) {
-  //     var rating = parseFloat(e.target.getAttribute('data-rating'));
-  //     this.rate(rating);
-  //     e.preventDefault();
-  //     e.stopPropagation();
-  //   }
-  // }
+  set limit (limit) {
+    this.setAttribute('limit', limit);
+  }
 
-  // update the stars to reflect the rating
-  // updateRating () {
-  //   this.starElements.forEach((star) => {
-  //     var starRating = parseFloat(star.getAttribute('data-rating'));
-  //
-  //     // ideally we would also polyfill classList for a better API
-  //     // https://developer.mozilla.org/en-US/docs/Web/API/Element/classList#JavaScript_shim_for_other_implementations
-  //     if (starRating < this.rating) {
-  //       star.className = 'icon-ui-blue icon-ui-favorites link-gray';
-  //     } else {
-  //       star.className = 'icon-ui-favorites link-gray';
-  //     }
-  //   });
-  // }
-  //
-  // // update the count of ratings displayed next to the stars
-  // updateNumRatings () {
-  //   this.numRatingElement.textContent = this.numratings + ' Ratings';
-  // }
+  get sort () {
+    return this.getAttribute('sort');
+  }
+
+  set sort (sort) {
+    this.setAttribute('sort', sort);
+  }
+
+  get group () {
+    return this.getAttribute('group');
+  }
+
+  set group (group) {
+    this.setAttribute('group', group);
+  }
+
 }
 
 // now we register our element with the DOM this returns a constructor function

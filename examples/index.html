@@ -18,14 +18,33 @@
       </div>
 
       <div class="jumbotron">
-        <h1>Search for open data:</h1>
-        <opendata-search id="my-od-search" api="http://opendataqa.arcgis.com">
-          <form>
-            <label>Search ze datas:</label>
-            <input type="search" placeholder="search...">
-            <button type="submit">Searcheroni</button>
-          </form>
-        </opendata-search>
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <h1>Search for open data:</h1>
+            <opendata-search id="my-od-search" api="http://opendataqa.arcgis.com/" limit="5" sort="created_at">
+              <form>
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="search" class="form-control input-lg" placeholder="Search for open data">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default btn-lg" type="submit">Go!</button>
+                    </span>
+                  </div>
+                  </div>
+              </form>
+              <script id="od_result_item_template" type="text/html">
+                <li class="od-search-results-item">
+                  <h1>
+                    <a href="<%=dataset_url%>" target="_blank">
+                      <%=name%>
+                    </a>
+                  </h1>
+                  <small>(<%=item_type%>)</small>
+                </li>
+              </script>
+            </opendata-search>
+          </div>
+        </div>
       </div>
 
       <div class="row marketing">
@@ -42,11 +61,23 @@
     </div> <!-- /container -->
 
 
-    <!-- <script>
-      var rating = document.getElementById('myItemRating');
-      rating.addEventListener('rateitem', function(e) {
-        console.log('Rate Item:', e.detail.rating);
+    <script>
+      var el = document.getElementById('my-od-search');
+      el.addEventListener('before:search', function(e) {
+        console.debug('Search: ', e.detail.url);
       });
-    </script> -->
+      el.addEventListener('after:search', function(e) {
+        console.debug('Got results: ', e.detail.results.data.length);
+      });
+      el.addEventListener('before:results', function(e) {
+        console.debug('Showing results: ', e.detail.results.data.length);
+      });
+      el.addEventListener('after:search', function(e) {
+        console.debug('Shown results: ', e.detail.results.data.length);
+      });
+      el.addEventListener('error', function(e) {
+        console.debug('Search error: ', e.detail.url);
+      });
+    </script>
   </body>
 </html>
