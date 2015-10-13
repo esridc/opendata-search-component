@@ -189,7 +189,7 @@ class OpendataSearch extends HTMLElement {
   }
 
   itemUrl (itemId) {
-    return `${this.api}datasets/${itemId}.json`;
+    return `${this.api}datasets/${itemId}`;
   }
 
   // dom attributes also map to properties on the object

@@ -21,7 +21,7 @@ describe('OpendataSearch', () => {
     });
 
     it('should generate the appropriate itemUrl', function () {
-      expect(inst.itemUrl('abc123')).toEqual('http://opendata.arcgis.com/datasets/abc123.json');
+      expect(inst.itemUrl('abc123')).toEqual('http://opendata.arcgis.com/datasets/abc123');
     });
 
     it('should render appropriate html', function () {
@@ -61,7 +61,7 @@ describe('OpendataSearch', () => {
     });
 
     it('should generate the appropriate itemUrl', function () {
-      expect(inst.itemUrl('abc123')).toEqual('http://opendataqa.arcgis.com/datasets/abc123.json');
+      expect(inst.itemUrl('abc123')).toEqual('http://opendataqa.arcgis.com/datasets/abc123');
     });
 
   });
