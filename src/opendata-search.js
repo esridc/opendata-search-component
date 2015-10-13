@@ -91,7 +91,6 @@ class OpendataSearch extends HTMLElement {
   }
 
   handleSubmit (evt) {
-    debugger;
     evt.preventDefault();
     this.resultsContainerEl.innerHtml = '';
     var url = this.getUrl(this.inputEl.value)
@@ -99,11 +98,10 @@ class OpendataSearch extends HTMLElement {
   }
 
   handleResults (response) {
-    debugger;
     if (typeof response === 'string') {
       response = JSON.parse(response);
     }
-    debugger;
+
     // TODO: there are cleaner, more performant ways of doing this...
     if (response.data) {
       response.data.forEach(function (item) {
