@@ -7,11 +7,13 @@ function sendRequest(url, callback, errback) {
   var xhr;
   if (window.XDomainRequest) xhr = new XDomainRequest();
   else if (window.XMLHttpRequest) xhr = new XMLHttpRequest();
-  else xhr = new ActiveXObject("Microsoft.XMLHTTP");
-debugger;
-  xhr.open('GET', encodeURI(url));
+
+  xhr.open('GET', encodeURI(url), true);
   xhr.responseType = 'json';
-  xhr.onload = function(foo) {
+  xhr.onprogress = function() {}; // persuade ie to not abort
+  xhr.ontimeout = function() {}; // persuade ie to not abort
+  xhr.onload = function() {
+    debugger;
     if (xhr.status === 200) {
       if (callback) {
         callback(xhr.response);
@@ -23,6 +25,11 @@ debugger;
       }
     }
   };
+  xhr.onerror = function() {
+    debugger;
+    errback(xhr);
+  };
+
   xhr.send();
 }
 
