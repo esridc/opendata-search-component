@@ -2,8 +2,11 @@
 
 /*
   TODO:
+    raiseEvent method
+    it can't find the second script tag - i think we will need to define them outside and provide their ids
     unit tests & integration tests - test declarative usage...
     documentation
+    make it npm installable
     other url parameters: fields="title,tags,created_at,download_links"
     other features for down the road:
       pagination (this could possibly be done from outside using events)
@@ -34,6 +37,11 @@ class OpendataSearch extends HTMLElement {
     this.sort = this.sort || ''; //use api default
     this.group = this.group || '';
 
+    this.injectCSS();
+    this.injectHTML();
+  }
+
+  injectCSS () {
     // insert base styles
     // note - the scoped attribute will not work in most browsers
     this.insertAdjacentHTML('afterbegin', `
@@ -52,8 +60,10 @@ class OpendataSearch extends HTMLElement {
         }
       <style>
     `);
+  }
 
-    // insert the HTML structure of this widget if it was not provided
+  injectHTML () {
+    // insert the HTML structure of this element if it was not provided
     if (query('form input', this).length === 0) {
       this.insertAdjacentHTML('beforeend', `
         <form>
@@ -74,9 +84,11 @@ class OpendataSearch extends HTMLElement {
     this.formEl = query('form', this)[0];
     this.inputEl = query('input', this)[0];
     this.resultsContainerEl = query('.od-search-results', this)[0];
+  }
 
+  initResultsTemplates () {
     // compile the results item template
-    if (query('#od_result_item_template', this).length > 0) {
+    if (this.querySelector('#od_result_item_template')) {
       this.resultItemTemplate = tmpl('od_result_item_template');
     } else {
       this.resultItemTemplate = tmpl(`
@@ -91,7 +103,7 @@ class OpendataSearch extends HTMLElement {
     }
 
     // compile the no results template
-    if (query('#od_no_results_template', this).length > 0) {
+    if (this.querySelector('#od_no_results_template')) {
       this.noResultsTemplate = tmpl('od_no_results_template');
     } else {
       this.noResultsTemplate = tmpl(`
@@ -103,9 +115,6 @@ class OpendataSearch extends HTMLElement {
   // called whenever an element is added to the DOM
   // events should be attached here
   attachedCallback () {
-    // instead of listening for click events on individual stars it is
-    // better to use delegation becuse it keeps the `this` reference the same
-    // and make it easy to remove the listener later
     this.formEl.addEventListener('submit', this.handleSubmit.bind(this));
   }
 
@@ -113,6 +122,13 @@ class OpendataSearch extends HTMLElement {
   // events should be removed here
   detachedCallback () {
     this.formEl.removeEventListener('onSubmit', this.handleSubmit);
+  }
+
+  raiseEvent (name, data, bubbles = true) {
+    this.dispatchEvent(new CustomEvent(name, {
+      bubbles: bubbles,
+      detail: data
+    }));
   }
 
   handleSubmit (evt) {
@@ -124,31 +140,20 @@ class OpendataSearch extends HTMLElement {
   }
 
   search (url) {
-    this.dispatchEvent(new CustomEvent('before:search', {
-      bubbles: true,
-      detail: {
-        url: url
-      }
-    }));
+    this.raiseEvent('before:search', { url: url });
 
     this.resultsContainerEl.innerHTML = '';
 
+    this.xhr(url);
+  }
+
+  xhr (url) {
     xhr(url, this.handleResults.bind(this), this.handleError.bind(this));
   }
 
   handleResults (response) {
-    this.dispatchEvent(new CustomEvent('after:search', {
-      bubbles: true,
-      detail: {
-        results: response
-      }
-    }));
-    this.dispatchEvent(new CustomEvent('before:results', {
-      bubbles: true,
-      detail: {
-        results: response
-      }
-    }));
+    this.raiseEvent('after:search', { results: response });
+    this.raiseEvent('before:results', { results: response });
 
     response.data = response.data.map(function (item) {
       item.dataset_url = this.itemUrl(item.id);
@@ -156,15 +161,14 @@ class OpendataSearch extends HTMLElement {
     }.bind(this));
     this.insertResults(response.data);
 
-    this.dispatchEvent(new CustomEvent('after:results', {
-      bubbles: true,
-      detail: {
-        results: response
-      }
-    }));
+    this.raiseEvent('after:results', { results: response });
   }
 
   insertResults (data) {
+    if (!this.resultItemTemplate || !this.noResultsTemplate) {
+      this.initResultsTemplates();
+    }
+
     if (data && data.length) {
       // TODO: there are probably more performant ways of doing this...
       var els = data.map(this.resultItemTemplate);
@@ -176,12 +180,7 @@ class OpendataSearch extends HTMLElement {
 
   handleError (xhr) {
     console.error('opendata-search failed to fetch data from ', this.searchUrl());
-    this.dispatchEvent(new CustomEvent('error', {
-      bubbles: true,
-      detail: {
-        url: this.searchUrl()
-      }
-    }));
+    this.raiseEvent('error', { url: this.searchUrl() });
   }
 
   searchUrl (q) {

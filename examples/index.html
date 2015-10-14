@@ -19,23 +19,22 @@
 
       <div class="jumbotron">
         <div class="row">
-          <div class="col-md-8 col-md-offset-2">
-            <h1>Search for open data:</h1>
-            <opendata-search id="my-od-search" api="http://opendataqa.arcgis.com/" limit="5" sort="created_at">
+          <div class="col-md-10 col-md-offset-1">
+            <h1>Search prod for open data:</h1>
+            <opendata-search id="my-od-search" limit="5" sort="created_at">
               <form>
                 <div class="form-group">
                   <div class="input-group">
                     <input type="search" class="form-control input-lg" placeholder="Search for open data">
                     <span class="input-group-btn">
-                      <button class="btn btn-default btn-lg" type="submit">Go!</button>
+                      <button class="btn btn-default btn-lg" type="submit">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                      </button>
                     </span>
                   </div>
-                  </div>
+                </div>
               </form>
-              <script id="od_no_results_template" type="text/html">
-                Nada
-              </script>
-              <script id="od_result_item_template" type="text/html">
+              <script id="od_result_item_template" type="text/template">
                 <li class="od-search-results-item">
                   <h1>
                     <a href="<%=dataset_url%>" target="_blank">
@@ -45,15 +44,22 @@
                   <small>(<%=item_type%>)</small>
                 </li>
               </script>
+              <script id="od_no_results_template" type="text/template">
+                <div>Nada</div>
+              </script>
             </opendata-search>
           </div>
         </div>
       </div>
 
       <div class="row marketing">
-        <div class="col-lg-12">
-          <h2>Search for open data:</h2>
+        <div class="col-lg-6">
+          <h2>Search qa for open data:</h2>
           <opendata-search id="my-od-search2" api="http://opendataqa.arcgis.com"></opendata-search>
+        </div>
+        <div class="col-lg-6">
+          <h2>Search dev for open data:</h2>
+          <opendata-search id="my-od-search3" api="http://opendatadev.arcgis.com"></opendata-search>
         </div>
       </div>
 
@@ -62,6 +68,15 @@
       </footer>
 
     </div> <!-- /container -->
+
+    <div id="test">
+      <script id="tmpl-1" type="text/html">
+        foobar
+      </script>
+      <script id="tmpl-2" type="text/html">
+        wtf
+      </script>
+    </div>
 
 
     <script>

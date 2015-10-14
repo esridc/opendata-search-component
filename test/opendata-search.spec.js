@@ -66,4 +66,9 @@ describe('OpendataSearch', () => {
 
   });
 
+  describe('document.createElement', () => {
+    var inst = document.createElement('opendata-search');
+    document.body.appendChild(inst);
+  });
+
 });
