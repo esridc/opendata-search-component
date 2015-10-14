@@ -1,19 +1,5 @@
 /* global HTMLElement CustomEvent */
 
-/*
-  TODO:
-    integration tests - declarative usage seems to be busted in phantomjs
-    documentation
-    semver/release
-    arcgis/esri repo?
-    make it npm installable
-    other features for down the road:
-      pagination (this could possibly be done from outside using events)
-      loading indicator (this could possibly be done from outside using events)
-      autocomplete
-      location...
-*/
-
 // import polyfills
 import 'core-js/shim';
 import 'document-register-element';
