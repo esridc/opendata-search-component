@@ -1,13 +1,13 @@
 # opendata-search component
 
-## Installation
+<!-- ## Installation -->
 
 
 ## Usage
 
 Examples can be seen [here](http://arcgis.github.io/opendata-search-component/examples/).
 
-1. Include the opendata-search.js script _before_ you make use of the element in the DOM.
+1. Include the [opendata-search.js](https://github.com/ArcGIS/opendata-search-component/tree/master/dist) script _before_ you make use of the element in the DOM.
 1. Drop the element on the page as you would any other HTML element. `<opendata-search></opendata-search>`
 
 ### Options
