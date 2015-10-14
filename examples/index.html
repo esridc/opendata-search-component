@@ -21,7 +21,7 @@
         <div class="row">
           <div class="col-md-10 col-md-offset-1">
             <h1>Search prod for open data:</h1>
-            <opendata-search id="my-od-search" limit="5" sort="created_at">
+            <opendata-search id="my-od-search" limit="5" sort="created_at" fields="item_type">
               <form>
                 <div class="form-group">
                   <div class="input-group">
@@ -55,11 +55,11 @@
       <div class="row marketing">
         <div class="col-lg-6">
           <h2>Search qa for open data:</h2>
-          <opendata-search id="my-od-search2" api="http://opendataqa.arcgis.com"></opendata-search>
+          <opendata-search api="http://opendataqa.arcgis.com"></opendata-search>
         </div>
         <div class="col-lg-6">
           <h2>Search dev for open data:</h2>
-          <opendata-search id="my-od-search3" api="http://opendatadev.arcgis.com"></opendata-search>
+          <opendata-search api="http://opendatadev.arcgis.com"></opendata-search>
         </div>
       </div>
 
@@ -80,22 +80,24 @@
 
 
     <script>
-      var el = document.getElementById('my-od-search');
-      el.addEventListener('before:search', function(e) {
-        console.debug('Search: ', e.detail.url);
-      });
-      el.addEventListener('after:search', function(e) {
-        console.debug('Got results: ', e.detail.results.data.length);
-      });
-      el.addEventListener('before:results', function(e) {
-        console.debug('Showing results: ', e.detail.results.data.length);
-      });
-      el.addEventListener('after:search', function(e) {
-        console.debug('Shown results: ', e.detail.results.data.length);
-      });
-      el.addEventListener('error', function(e) {
-        console.debug('Search error: ', e.detail.url);
-      });
+      window.onload = function () {
+        var el = document.getElementById('my-od-search');
+        el.addEventListener('beforesearch', function(e) {
+          console.debug('Search: ', e.detail.url);
+        });
+        el.addEventListener('aftersearch', function(e) {
+          console.debug('Got results: ', e.detail.results.data.length);
+        });
+        el.addEventListener('beforeresults', function(e) {
+          console.debug('Showing results: ', e.detail.results.data.length);
+        });
+        el.addEventListener('aftersearch', function(e) {
+          console.debug('Shown results: ', e.detail.results.data.length);
+        });
+        el.addEventListener('error', function(e) {
+          console.debug('Search error: ', e.detail.url);
+        });
+      };
     </script>
   </body>
 </html>

@@ -2,7 +2,7 @@
 // Generated on Tue Oct 13 2015 16:04:46 GMT-0600 (MDT)
 
 module.exports = function(config) {
-  config.set({
+  var configObj = {
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
@@ -24,6 +24,7 @@ module.exports = function(config) {
 
     // list of files to exclude
     exclude: [
+      'test/declarative-usage.spec.js'
     ],
 
     // preprocess matching files before serving them to the browser
@@ -58,5 +59,13 @@ module.exports = function(config) {
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false
-  })
+  };
+
+  if (process.env.NODE_ENV === 'integration') {
+    configObj.files = [ 'test/declarative-usage.spec.js' ];
+    configObj.exclude = [];
+    configObj.browsers = [ 'Chrome' ];
+  }
+
+  config.set(configObj);
 }

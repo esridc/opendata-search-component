@@ -2,12 +2,11 @@
 
 /*
   TODO:
-    raiseEvent method
-    it can't find the second script tag - i think we will need to define them outside and provide their ids
-    unit tests & integration tests - test declarative usage...
+    integration tests - declarative usage seems to be busted in phantomjs
     documentation
+    semver/release
+    arcgis/esri repo?
     make it npm installable
-    other url parameters: fields="title,tags,created_at,download_links"
     other features for down the road:
       pagination (this could possibly be done from outside using events)
       loading indicator (this could possibly be done from outside using events)
@@ -36,13 +35,16 @@ class OpendataSearch extends HTMLElement {
     this.limit = this.limit || 10;
     this.sort = this.sort || ''; //use api default
     this.group = this.group || '';
+    this.fields = this.fields || '';
 
     this.injectCSS();
     this.injectHTML();
   }
 
+  /*
+    insert base styles
+  */
   injectCSS () {
-    // insert base styles
     // note - the scoped attribute will not work in most browsers
     this.insertAdjacentHTML('afterbegin', `
       <style scoped>
@@ -62,8 +64,10 @@ class OpendataSearch extends HTMLElement {
     `);
   }
 
+  /*
+    insert the HTML structure of this element if it was not provided
+  */
   injectHTML () {
-    // insert the HTML structure of this element if it was not provided
     if (query('form input', this).length === 0) {
       this.insertAdjacentHTML('beforeend', `
         <form>
@@ -86,11 +90,20 @@ class OpendataSearch extends HTMLElement {
     this.resultsContainerEl = query('.od-search-results', this)[0];
   }
 
+  /*
+    initialize the resultItemTemplate and noResultsTemplate
+  */
   initResultsTemplates () {
+    if (this.resultItemTemplate && this.noResultsTemplate) {
+      return;
+    }
+
     // compile the results item template
     if (this.querySelector('#od_result_item_template')) {
+      // it was provided in the element
       this.resultItemTemplate = tmpl('od_result_item_template');
     } else {
+      // use the default
       this.resultItemTemplate = tmpl(`
         <li class="od-search-results-item">
           <h1>
@@ -104,8 +117,10 @@ class OpendataSearch extends HTMLElement {
 
     // compile the no results template
     if (this.querySelector('#od_no_results_template')) {
+      // it was provided in the element
       this.noResultsTemplate = tmpl('od_no_results_template');
     } else {
+      // use the default
       this.noResultsTemplate = tmpl(`
         No results found for '<%=q%>'
       `);
@@ -124,6 +139,9 @@ class OpendataSearch extends HTMLElement {
     this.formEl.removeEventListener('onSubmit', this.handleSubmit);
   }
 
+  /*
+    Raises an event from this element - wraps dispatchEvent
+  */
   raiseEvent (name, data, bubbles = true) {
     this.dispatchEvent(new CustomEvent(name, {
       bubbles: bubbles,
@@ -131,6 +149,9 @@ class OpendataSearch extends HTMLElement {
     }));
   }
 
+  /*
+    handles form submission
+  */
   handleSubmit (evt) {
     evt.preventDefault();
     evt.stopPropagation();
@@ -139,35 +160,45 @@ class OpendataSearch extends HTMLElement {
     this.search(url);
   }
 
+  /*
+    performs the search
+  */
   search (url) {
-    this.raiseEvent('before:search', { url: url });
-
+    this.raiseEvent('beforesearch', { url: url });
     this.resultsContainerEl.innerHTML = '';
-
-    this.xhr(url);
+    this._xhr(url);
   }
 
-  xhr (url) {
+  /*
+    performs the actual xhr for search results - wraps imported xhr function
+  */
+  _xhr (url) {
     xhr(url, this.handleResults.bind(this), this.handleError.bind(this));
   }
 
+  /*
+    handles search response
+  */
   handleResults (response) {
-    this.raiseEvent('after:search', { results: response });
-    this.raiseEvent('before:results', { results: response });
+    this.raiseEvent('aftersearch', { results: response });
+    this.raiseEvent('beforeresults', { results: response });
 
+    // augment search results with dataset_url
     response.data = response.data.map(function (item) {
       item.dataset_url = this.itemUrl(item.id);
       return item;
     }.bind(this));
+    // show the results
     this.insertResults(response.data);
 
-    this.raiseEvent('after:results', { results: response });
+    this.raiseEvent('afterresults', { results: response });
   }
 
+  /*
+    inserts search result items or no results message into the element
+  */
   insertResults (data) {
-    if (!this.resultItemTemplate || !this.noResultsTemplate) {
-      this.initResultsTemplates();
-    }
+    this.initResultsTemplates();
 
     if (data && data.length) {
       // TODO: there are probably more performant ways of doing this...
@@ -178,15 +209,24 @@ class OpendataSearch extends HTMLElement {
     }
   }
 
+  /*
+    handles xhr error
+  */
   handleError (xhr) {
     console.error('opendata-search failed to fetch data from ', this.searchUrl());
     this.raiseEvent('error', { url: this.searchUrl() });
   }
 
+  /*
+    constructs search url from element attributes
+  */
   searchUrl (q) {
-    return `${this.api}datasets.json?q=${this.q}&per_page=${this.limit}&sort_by=${this.sort}&group_id=${this.group}`;
+    return `${this.api}datasets.json?q=${this.q}&per_page=${this.limit}&sort_by=${this.sort}&group_id=${this.group}&fields=${this.fields}`;
   }
 
+  /*
+    constructs a dataset url from element attributes and passed id
+  */
   itemUrl (itemId) {
     return `${this.api}datasets/${itemId}`;
   }
@@ -238,6 +278,25 @@ class OpendataSearch extends HTMLElement {
 
   set q (q) {
     this.setAttribute('q', q);
+  }
+
+  get requiredFields () {
+    // the fields on which the default configuration depends
+    return [ 'name', 'id' ];
+  }
+
+  get fields () {
+    return this.getAttribute('fields');
+  }
+
+  set fields (fields) {
+    // the component itself needs name, id
+    let fieldsAry = fields.length === 0 ? [] : fields.split(',');
+    this.requiredFields.forEach(function (item) {
+        if (fieldsAry.indexOf(item) === -1) { fieldsAry.unshift(item); }
+    });
+
+    this.setAttribute('fields', fieldsAry.join(','));
   }
 
 }

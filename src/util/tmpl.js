@@ -1,7 +1,9 @@
 // based on http://ejohn.org/blog/javascript-micro-templating/
 // John Resig - http://ejohn.org/ - MIT Licensed
 
-// if this proves insufficient, we could use something like: http://olado.github.io/doT/
+// if this proves insufficient, we could use something like:
+//    http://olado.github.io/doT/
+//    https://github.com/borismoore/jsrender
 
 var cache = {};
 

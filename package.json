@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run watch | npm run server",
-    "test": "./node_modules/karma/bin/karma start",
+    "test": "karma start",
+    "pretest": "npm run lint",
+    "integration": "NODE_ENV='integration' karma start",
     "watch": "watchify ./src/opendata-search.js -o ./dist/opendata-search.js -t [ babelify --stage 0 --loose es6.classes ] --debug --standalone=OpendataSearch",
-    "server": "http-server . -o -a localhost"
+    "server": "http-server . -o -a localhost",
+    "lint": "jshint './src/opendata-search.js'"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +21,7 @@
     "http-server": "^0.8.0",
     "jasmine": "^2.3.2",
     "jasmine-core": "^2.3.4",
+    "jshint": "^2.8.0",
     "karma": "^0.13.10",
     "karma-browserify": "^4.4.0",
     "karma-chrome-launcher": "^0.2.1",
@@ -25,11 +29,12 @@
     "karma-phantomjs-launcher": "^0.2.1",
     "phantomjs": "^1.9.18",
     "rollup": "^0.12.1",
+    "uglify-js": "^2.5.0",
     "watchify": "^3.3.1"
   },
   "dependencies": {
     "core-js": "^1.1.1",
     "custom-event": "^1.0.0",
-    "document-register-element": "^0.4.5"
+    "document-register-element": "^0.5.0"
   }
 }
