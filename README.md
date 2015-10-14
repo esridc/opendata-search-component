@@ -5,7 +5,7 @@
 
 ## Usage
 
-Examples can be seen [here]().
+Examples can be seen [here](http://arcgis.github.io/opendata-search-component/examples/).
 
 1. Include the opendata-search.js script _before_ you make use of the element in the DOM.
 1. Drop the element on the page as you would any other HTML element. `<opendata-search></opendata-search>`
@@ -70,7 +70,7 @@ To control the display of the search results, provide templates like this:
 </opendata-search>
 ````
 
-Note that the template must be inside script tags with `type="text/template"` and `id="od_result_item_template"`. Tokens to replace with search result item properties should be specified with tags like: `<%=property_name%>`.
+Note that the template must be inside script tags with `type="text/template"` and `id="od_result_item_template"`. Tokens to replace with search result item properties should be specified with tags like: `<%=property_name%>`. Note that if you make use of search result item properties not used by the component by default, you should specify them on the `fields` attribute of the component.
 
 The "no results" message can be similarly customized by providing a template with `id="od_no_results_template"`. This template has access the the properties of the element, so you could do something like:
 
