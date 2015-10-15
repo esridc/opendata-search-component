@@ -113,7 +113,3 @@ Works totally out of the box, as long as you obey the [DOM standards](#strictly-
 ## Browser support
 
 Works in all modern browsers back to IE 9.
-
-## License
-
-MIT
