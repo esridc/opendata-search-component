@@ -6,10 +6,16 @@
   "scripts": {
     "start": "npm run watch | npm run server",
     "test": "karma start",
+    "test:once": "TEST_MODE='single' npm test",
     "pretest": "npm run lint",
-    "watch": "watchify ./src/opendata-search.js -o ./dist/opendata-search.js -t [ babelify --stage 0 --loose es6.classes ] --debug --standalone=OpendataSearch",
+    "watch": "watchify ./src/opendata-search.js -o ./dist/opendata-search.js -t [ babelify --loose es6.classes ] --debug --standalone=OpendataSearch",
     "server": "http-server . -o -a localhost",
-    "lint": "jshint './src/opendata-search.js'"
+    "lint": "jshint './src/opendata-search.js'",
+    "build": "npm run test:once && npm run compile && npm run minify",
+    "compile": "browserify ./src/opendata-search.js -o ./dist/opendata-search.js -t [ babelify --loose es6.classes ] --standalone=OpendataSearch",
+    "minify": "uglifyjs ./dist/opendata-search.js -o ./dist/opendata-search.min.js --screw-ie8 --compress drop_console,drop_debugger",
+    "publish": "echo no publish task yet",
+    "prepublish": "npm run build"
   },
   "author": "",
   "license": "ISC",
