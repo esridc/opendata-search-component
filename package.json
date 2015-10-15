@@ -1,6 +1,6 @@
 {
   "name": "opendata-search-component",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,6 @@
     "build": "npm run test:once && npm run compile && npm run minify",
     "compile": "browserify ./src/opendata-search.js -o ./dist/opendata-search.js -t [ babelify --loose es6.classes ] --standalone=OpendataSearch",
     "minify": "uglifyjs ./dist/opendata-search.js -o ./dist/opendata-search.min.js --screw-ie8 --compress drop_console,drop_debugger",
-    "publish": "echo no publish task yet",
     "prepublish": "npm run build"
   },
   "author": "",
