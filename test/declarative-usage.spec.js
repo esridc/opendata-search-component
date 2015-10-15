@@ -9,6 +9,7 @@
 */
 
 import OpendataSearch from '../src/opendata-search.js';
+import poller from './helpers/poller.js';
 
 describe('OpendataSearch', () => {
 
@@ -17,7 +18,7 @@ describe('OpendataSearch', () => {
     var inst;
 
     // inject the HTML fixture for the tests
-    beforeEach(function() {
+    beforeEach(function(done) {
       var fixture = `
         <div id="fixture">
           <opendata-search id="my-od-search"></opendata-search>
@@ -39,6 +40,9 @@ describe('OpendataSearch', () => {
           ]
         });
       };
+
+      //poll the element for the _iscreated property
+      poller(inst, done);
     });
 
     // remove the html fixture from the DOM
@@ -48,13 +52,11 @@ describe('OpendataSearch', () => {
 
     it('should be defined', function () {
       expect(inst).toBeDefined();
-      //console.log(JSON.stringify(inst));
     });
 
     it('should have default attributes', function () {
       expect(inst.id).toEqual('my-od-search');
       expect(inst.tagName.toLowerCase()).toEqual('opendata-search');
-      // expect(inst.getAttribute('api')).toEqual('http://opendata.arcgis.com/');
       expect(inst.api).toEqual('http://opendata.arcgis.com/');
       expect(inst.limit).toEqual(10);
       expect(inst.sort).toEqual('');

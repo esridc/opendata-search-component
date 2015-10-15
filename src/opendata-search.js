@@ -25,6 +25,9 @@ class OpendataSearch extends HTMLElement {
 
     this.injectCSS();
     this.injectHTML();
+
+    //for testing since the document.createElement polyfill is async
+    this._iscreated = true;
   }
 
   /*
