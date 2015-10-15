@@ -2,7 +2,7 @@
   "name": "opendata-search-component",
   "version": "0.1.2",
   "description": "A custom element that provides a Esri ArcGIS Open Data search widget.",
-  "main": "index.js",
+  "repository": "https://github.com/ArcGIS/opendata-search-component",
   "scripts": {
     "start": "npm run watch | npm run server",
     "test": "karma start",
