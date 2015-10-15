@@ -62,5 +62,9 @@ module.exports = function(config) {
     singleRun: false
   };
 
+  if (process.env.TEST_MODE === 'single') {
+    configObj.singleRun = true
+  }
+
   config.set(configObj);
 }
