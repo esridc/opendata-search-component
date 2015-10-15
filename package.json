@@ -1,7 +1,7 @@
 {
   "name": "opendata-search-component",
   "version": "0.1.1",
-  "description": "",
+  "description": "A custom element that provides a Esri ArcGIS Open Data search widget.",
   "main": "index.js",
   "scripts": {
     "start": "npm run watch | npm run server",
@@ -16,8 +16,8 @@
     "minify": "uglifyjs ./dist/opendata-search.js -o ./dist/opendata-search.min.js --screw-ie8 --compress drop_console,drop_debugger",
     "prepublish": "npm run build"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "mike juniper",
+  "license": "Apache",
   "devDependencies": {
     "babel": "^5.8.21",
     "babelify": "^6.2.0",
