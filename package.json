@@ -7,7 +7,6 @@
     "start": "npm run watch | npm run server",
     "test": "karma start",
     "pretest": "npm run lint",
-    "integration": "NODE_ENV='integration' karma start",
     "watch": "watchify ./src/opendata-search.js -o ./dist/opendata-search.js -t [ babelify --stage 0 --loose es6.classes ] --debug --standalone=OpendataSearch",
     "server": "http-server . -o -a localhost",
     "lint": "jshint './src/opendata-search.js'"
