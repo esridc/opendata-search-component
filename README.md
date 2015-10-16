@@ -1,7 +1,7 @@
 # opendata-search component
 
-<!-- ## Installation -->
-
+## Installation
+`npm install opendata-search-component`
 
 ## Usage
 
