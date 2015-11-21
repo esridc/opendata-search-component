@@ -7,20 +7,20 @@
   <body>
     <div class="container">
       <div class="header clearfix">
+        <h1 class="text-muted">Embedded Open Data</h1>
         <nav>
           <ul class="nav nav-pills pull-right">
-            <li role="presentation" class="active"><a href="#">Home</a></li>
-            <li role="presentation"><a href="#">About</a></li>
-            <li role="presentation"><a href="#">Contact</a></li>
           </ul>
         </nav>
-        <h3 class="text-muted">Project name</h3>
       </div>
 
       <div class="jumbotron">
         <div class="row">
-          <div class="col-md-10 col-md-offset-1">
-            <h1>Search prod for open data:</h1>
+        <div class="col-md-4">
+          <p>Sharing data should mean making it easy for people to find content wherever they are already looking for data. While portals are useful centralized repositories - imagine if open data was part of the existing government websites, or even in community sites, blogs, and other outreach. </p>
+          </div>          
+          <div class="col-md-8 col-md-offsets-1">
+            <h3>Search for open data:</h3>
             <opendata-search id="my-od-search" limit="5" sort="created_at" fields="item_type">
               <form>
                 <div class="form-group">
@@ -54,18 +54,22 @@
 
       <div class="row marketing">
         <div class="col-lg-6">
-          <h2>Search qa for open data:</h2>
-          <opendata-search api="http://opendataqa.arcgis.com"></opendata-search>
+          <p>The embedded search can be simple, or customized and styled like above. It can also be configured to limit the search to specific ArcGIS Open Data groups. For example to limit to only 20 results from the <a href="http://dcdev.maps.arcgis.com/home/group.html?id=62be2f179f674941b393f1c9bc8ca73e" title="DC Education in ArcGIS.com">DC Education data:</a></p>
+          <code><pre>
+&lt;script src="http://esridc.github.io/opendata-search-component/dist/opendata-search.js"&gt;&lt;/script&gt;
+&lt;opendata-search
+  api="http://opendata.arcgis.com"
+  limit="20"
+  sort="relevance"
+  group="62be2f179f674941b393f1c9bc8ca73e"
+  fields="record_count, item_type"&gt;&lt;/opendata-search&gt;
+          </pre></code>
         </div>
         <div class="col-lg-6">
-          <h2>Search dev for open data:</h2>
-          <opendata-search api="http://opendatadev.arcgis.com"></opendata-search>
+          <h3>Search DC Education open data:</h3>
+          <opendata-search api="http://opendata.arcgis.com" group="62be2f179f674941b393f1c9bc8ca73e"></opendata-search>
         </div>
       </div>
-
-      <footer class="footer">
-        <p>&copy; Company 2014</p>
-      </footer>
 
     </div> <!-- /container -->
 

@@ -15,10 +15,10 @@ Examples can be seen [here](http://arcgis.github.io/opendata-search-component/ex
 Options can be specified as attributes on the element.
 ````
 <opendata-search
-  api="http://my.opendata.url"
+  api="http://opendata.arcgis.com"
   limit="20"
   sort="relevance"
-  group="my_group_id"
+  group="62be2f179f674941b393f1c9bc8ca73e"
   fields="record_count, item_type"></opendata-search>
 ````
 
