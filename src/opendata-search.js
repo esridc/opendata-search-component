@@ -17,7 +17,7 @@ class OpendataSearch extends HTMLElement {
   createdCallback () {
     // defaults
     this.api = this.api === '/' ? 'http://opendata.arcgis.com' : this.api;
-    this.q = this.q || '';
+    this.q = (this.q === undefined || this.q === '') ? '*' : this.q;
     this.limit = this.limit || 10;
     this.sort = this.sort || ''; //use api default
     this.group = this.group || '';
@@ -45,9 +45,8 @@ class OpendataSearch extends HTMLElement {
         opendata-search .od-search-results-item {
           padding: 5px;
         }
-        opendata-search .od-search-results-item h1 {
+        opendata-search .od-search-results-item a {
           margin: 0;
-          font-size: 1.5em;
         }
       <style>
     `);
@@ -60,7 +59,6 @@ class OpendataSearch extends HTMLElement {
     if (query('form input', this).length === 0) {
       this.insertAdjacentHTML('beforeend', `
         <form>
-          <label>Search for:</label>
           <input type="search">
           <button type="submit">Search</button>
         </form>
@@ -95,11 +93,9 @@ class OpendataSearch extends HTMLElement {
       // use the default
       this.resultItemTemplate = tmpl(`
         <li class="od-search-results-item">
-          <h1>
             <a href="<%=dataset_url%>" target="_blank">
               <%=name%>
             </a>
-          </h1>
         </li>
       `);
     }
