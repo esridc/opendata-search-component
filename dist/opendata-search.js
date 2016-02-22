@@ -3796,7 +3796,7 @@ var OpendataSearch = (function (_HTMLElement) {
   OpendataSearch.prototype.createdCallback = function createdCallback() {
     // defaults
     this.api = this.api === '/' ? 'http://opendata.arcgis.com' : this.api;
-    this.q = this.q || '';
+    this.q = this.q === undefined || this.q === '' ? '*' : this.q;
     this.limit = this.limit || 10;
     this.sort = this.sort || ''; //use api default
     this.group = this.group || '';
@@ -3815,7 +3815,7 @@ var OpendataSearch = (function (_HTMLElement) {
 
   OpendataSearch.prototype.injectCSS = function injectCSS() {
     // note - the scoped attribute will not work in most browsers
-    this.insertAdjacentHTML('afterbegin', '\n      <style scoped>\n        opendata-search .od-search-results {\n          list-style: none;\n          margin: 0;\n          padding: 0;\n        }\n        opendata-search .od-search-results-item {\n          padding: 5px;\n        }\n        opendata-search .od-search-results-item h1 {\n          margin: 0;\n          font-size: 1.5em;\n        }\n      <style>\n    ');
+    this.insertAdjacentHTML('afterbegin', '\n      <style scoped>\n        opendata-search .od-search-results {\n          list-style: none;\n          margin: 0;\n          padding: 0;\n        }\n        opendata-search .od-search-results-item {\n          padding: 5px;\n        }\n        opendata-search .od-search-results-item a {\n          margin: 0;\n        }\n      <style>\n    ');
   };
 
   /*
@@ -3824,7 +3824,7 @@ var OpendataSearch = (function (_HTMLElement) {
 
   OpendataSearch.prototype.injectHTML = function injectHTML() {
     if ((0, _utilQueryJs2['default'])('form input', this).length === 0) {
-      this.insertAdjacentHTML('beforeend', '\n        <form>\n          <label>Search for:</label>\n          <input type="search">\n          <button type="submit">Search</button>\n        </form>\n      ');
+      this.insertAdjacentHTML('beforeend', '\n        <form>\n          <input type="search">\n          <button type="submit">Search</button>\n        </form>\n      ');
     }
 
     if ((0, _utilQueryJs2['default'])('.od-search-results', this).length === 0) {
@@ -3852,7 +3852,7 @@ var OpendataSearch = (function (_HTMLElement) {
       this.resultItemTemplate = (0, _utilTmplJs2['default'])('od_result_item_template');
     } else {
       // use the default
-      this.resultItemTemplate = (0, _utilTmplJs2['default'])('\n        <li class="od-search-results-item">\n          <h1>\n            <a href="<%=dataset_url%>" target="_blank">\n              <%=name%>\n            </a>\n          </h1>\n        </li>\n      ');
+      this.resultItemTemplate = (0, _utilTmplJs2['default'])('\n        <li class="od-search-results-item">\n            <a href="<%=dataset_url%>" target="_blank">\n              <%=name%>\n            </a>\n        </li>\n      ');
     }
 
     // compile the no results template
