@@ -141,6 +141,8 @@ class OpendataSearch extends HTMLElement {
     evt.preventDefault();
     evt.stopPropagation();
     this.q = this.inputEl.value;
+    this.q = (this.q === undefined || this.q === '') ? '*' : this.q;
+    console.log("q", this.q)
     let url = this.searchUrl(this.inputEl.value);
     this.search(url);
   }
@@ -206,6 +208,9 @@ class OpendataSearch extends HTMLElement {
     constructs search url from element attributes
   */
   searchUrl (q) {
+    this.q = (this.q === undefined || this.q === '') ? '*' : this.q;
+    console.log("q", this.q)
+    
     return `${this.api}datasets.json?q=${this.q}&per_page=${this.limit}&sort_by=${this.sort}&group_id=${this.group}&fields=${this.fields}`;
   }
 

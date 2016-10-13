@@ -18,7 +18,7 @@
         <div class="row">
         <div class="col-md-4">
           <p>Sharing data should mean making it easy for people to find content wherever they are already looking for data. While portals are useful centralized repositories - imagine if open data was part of the existing government websites, or even in community sites, blogs, and other outreach. </p>
-          </div>          
+          </div>
           <div class="col-md-8 col-md-offsets-1">
             <h3>Search for open data:</h3>
             <opendata-search id="my-od-search" limit="5" sort="created_at" fields="item_type">
@@ -36,12 +36,12 @@
               </form>
               <script id="od_result_item_template" type="text/template">
                 <li class="od-search-results-item">
-                  <h1>
-                    <a href="<%=dataset_url%>" target="_blank">
-                      <%=name%>
-                    </a>
-                  </h1>
-                  <small>(<%=item_type%>)</small>
+                  <img src="<%=thumbnail_url%>" height=50/>
+                  <a href="<%=dataset_url%>" target="_blank">
+                    <%=name%>
+                  </a> <br />
+                  <small>(<%=coverage %> dataset with <%=record_count%> records)</small>
+                  <a href="<%=dataset_url%>.csv">Download CSV</a>
                 </li>
               </script>
               <script id="od_no_results_template" type="text/template">
