@@ -34,7 +34,7 @@
                   </div>
                 </div>
               </form>
-              <script id="od_result_item_template" type="text/template">
+              <script id="od_result_item_template2" type="text/template">
                 <li class="od-search-results-item">
                   <img src="<%=thumbnail_url%>" height=50/>
                   <a href="<%=dataset_url%>" target="_blank">
@@ -66,8 +66,18 @@
           </pre></code>
         </div>
         <div class="col-lg-6">
-          <h3>Search DC Education open data:</h3>
-          <opendata-search api="http://opendata.arcgis.com" group="62be2f179f674941b393f1c9bc8ca73e"></opendata-search>
+          <h3>Search DC Education open data</h3>
+<opendata-search id="my-dc-search" api="http://opendata.arcgis.com" group="62be2f179f674941b393f1c9bc8ca73e">
+  <script id="od_result_item_template" type="text/template">
+    <li class="od-search-results-item">
+      <img src="<%=thumbnail_url%>" height=50/>
+      <a href="http://opendata.dc.gov/datasets/<%=id%>" target="_blank">
+        <%=name%>
+      </a> <br />
+      <a href="<%=dataset_url%>.csv">Download CSV</a>
+    </li>
+  </script>
+</opendata-search>
         </div>
       </div>
 
