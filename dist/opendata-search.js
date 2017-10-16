@@ -3984,6 +3984,7 @@ var OpendataSearch = (function (_HTMLElement) {
 
   OpendataSearch.prototype.searchUrl = function searchUrl(q) {
     this.q = this.q === undefined || this.q === '' ? '*' : this.q;
+    console.log("q", this.q);
 
     return this.api + 'datasets.json?q=' + this.q + '&per_page=' + this.limit + '&sort_by=' + this.sort + '&group_id=' + this.group + '&fields=' + this.fields;
   };
