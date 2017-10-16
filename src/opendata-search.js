@@ -49,7 +49,7 @@ class OpendataSearch extends HTMLElement {
         opendata-search .od-search-results-item a {
           margin: 0;
         }
-      <style>
+      </style>
     `);
   }
 
@@ -116,13 +116,14 @@ class OpendataSearch extends HTMLElement {
   // called whenever an element is added to the DOM
   // events should be attached here
   attachedCallback () {
-    this.formEl.addEventListener('submit', this.handleSubmit.bind(this));
+    this.onSubmitHandler = this.handleSubmit.bind(this);
+    this.formEl.addEventListener('submit', this.onSubmitHandler);
   }
 
   // called when the element is removed from the DOM
   // events should be removed here
   detachedCallback () {
-    this.formEl.removeEventListener('onSubmit', this.handleSubmit);
+    this.formEl.removeEventListener('submit', this.onSubmitHandler);
   }
 
   /*
@@ -212,7 +213,7 @@ class OpendataSearch extends HTMLElement {
   */
   searchUrl (q) {
     this.q = (this.q === undefined || this.q === '') ? '*' : this.q;
-    console.log("q", this.q)
+    console.log("q", this.q);
 
     return `${this.api}datasets.json?q=${this.q}&per_page=${this.limit}&sort_by=${this.sort}&group_id=${this.group}&fields=${this.fields}`;
   }
