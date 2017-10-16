@@ -17,7 +17,7 @@ describe('OpendataSearch', () => {
       expect(inst.limit).toEqual(10);
       expect(inst.sort).toEqual('');
       expect(inst.group).toEqual('');
-      expect(inst.q).toEqual('');
+      expect(inst.q).toEqual('*');
     });
 
     it('should have required fields', function () {
@@ -26,7 +26,7 @@ describe('OpendataSearch', () => {
     });
 
     it('should generate the appropriate searchUrl', function () {
-      expect(inst.searchUrl()).toEqual('http://opendata.arcgis.com/datasets.json?q=&per_page=10&sort_by=&group_id=&fields=id,name');
+      expect(inst.searchUrl()).toEqual('http://opendata.arcgis.com/datasets.json?q=*&per_page=10&sort_by=&group_id=&fields=id,name');
     });
 
     it('should generate the appropriate itemUrl', function () {
@@ -36,7 +36,6 @@ describe('OpendataSearch', () => {
     it('should render appropriate html', function () {
       expect(inst.innerHTML).toContain(`
         <form>
-          <label>Search for:</label>
           <input type="search">
           <button type="submit">Search</button>
         </form>
