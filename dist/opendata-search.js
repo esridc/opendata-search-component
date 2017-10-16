@@ -3822,7 +3822,7 @@ var OpendataSearch = (function (_HTMLElement) {
 
   OpendataSearch.prototype.injectCSS = function injectCSS() {
     // note - the scoped attribute will not work in most browsers
-    this.insertAdjacentHTML('afterbegin', '\n      <style scoped>\n        opendata-search .od-search-results {\n          list-style: none;\n          margin: 0;\n          padding: 0;\n        }\n        opendata-search .od-search-results-item {\n          padding: 5px;\n        }\n        opendata-search .od-search-results-item a {\n          margin: 0;\n        }\n      </style>\n    ');
+    this.insertAdjacentHTML('afterbegin', '\n      <style scoped>\n        opendata-search .od-search-results {\n          list-style: none;\n          margin: 0;\n          padding: 0;\n          color: red;\n        }\n        opendata-search .od-search-results-item {\n          padding: 5px;\n          color: red;\n        }\n        opendata-search .od-search-results-item a {\n          margin: 0;\n          color: red;\n        }\n      </style>\n    ');
   };
 
   /*

@@ -42,12 +42,15 @@ class OpendataSearch extends HTMLElement {
           list-style: none;
           margin: 0;
           padding: 0;
+          color: red;
         }
         opendata-search .od-search-results-item {
           padding: 5px;
+          color: red;
         }
         opendata-search .od-search-results-item a {
           margin: 0;
+          color: red;
         }
       </style>
     `);
