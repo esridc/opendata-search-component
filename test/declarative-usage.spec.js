@@ -72,7 +72,7 @@ describe('OpendataSearch', () => {
       expect(inst.limit).toEqual(10);
       expect(inst.sort).toEqual('');
       expect(inst.group).toEqual('');
-      expect(inst.q).toEqual('');
+      expect(inst.q).toEqual('*');
     });
 
     it('should have required fields', function () {
@@ -82,7 +82,7 @@ describe('OpendataSearch', () => {
     });
 
     it('should generate the appropriate searchUrl', function () {
-      expect(inst.searchUrl()).toEqual('http://opendata.arcgis.com/datasets.json?q=&per_page=10&sort_by=&group_id=&fields=id,name');
+      expect(inst.searchUrl()).toEqual('http://opendata.arcgis.com/datasets.json?q=*&per_page=10&sort_by=&group_id=&fields=id,name');
     });
 
     it('should generate the appropriate itemUrl', function () {
@@ -92,7 +92,6 @@ describe('OpendataSearch', () => {
     it('should render appropriate html', function () {
       expect(inst.innerHTML).toContain(`
         <form>
-          <label>Search for:</label>
           <input type="search">
           <button type="submit">Search</button>
         </form>
@@ -140,7 +139,7 @@ describe('OpendataSearch', () => {
     beforeEach(function(done) {
       var fixture = `
         <div id="fixture">
-          <opendata-search id="my-od-search" api="http://my.open.api" limit="5" sort="relevance" group="abc123" fields="foo,bar"></opendata-search>
+          <opendata-search id="my-od-search" limit="5" sort="relevance" group="abc123" fields="foo,bar"></opendata-search>
         </div>
       `;
       document.body.insertAdjacentHTML('afterbegin', fixture);
@@ -195,11 +194,11 @@ describe('OpendataSearch', () => {
     it('should have default attributes', function () {
       expect(inst.id).toEqual('my-od-search');
       expect(inst.tagName.toLowerCase()).toEqual('opendata-search');
-      expect(inst.api).toEqual('http://my.open.api/');
+      expect(inst.api).toEqual('http://opendata.arcgis.com/');
       expect(inst.limit).toEqual(5);
       expect(inst.sort).toEqual('relevance');
       expect(inst.group).toEqual('abc123');
-      expect(inst.q).toEqual('');
+      expect(inst.q).toEqual('*');
     });
 
     it('should have required fields', function () {
@@ -210,17 +209,16 @@ describe('OpendataSearch', () => {
     });
 
     it('should generate the appropriate searchUrl', function () {
-      expect(inst.searchUrl()).toEqual('http://my.open.api/datasets.json?q=&per_page=5&sort_by=relevance&group_id=abc123&fields=id,name,foo,bar');
+      expect(inst.searchUrl()).toEqual('http://opendata.arcgis.com/datasets.json?q=*&per_page=5&sort_by=relevance&group_id=abc123&fields=id,name,foo,bar');
     });
 
     it('should generate the appropriate itemUrl', function () {
-      expect(inst.itemUrl('abc123')).toEqual('http://my.open.api/datasets/abc123');
+      expect(inst.itemUrl('abc123')).toEqual('http://opendata.arcgis.com/datasets/abc123');
     });
 
     it('should render appropriate html', function () {
       expect(inst.innerHTML).toContain(`
         <form>
-          <label>Search for:</label>
           <input type="search">
           <button type="submit">Search</button>
         </form>
@@ -242,7 +240,7 @@ describe('OpendataSearch', () => {
       inst.querySelector('form button').click();
 
       expect(inst.searchUrl).toHaveBeenCalledWith('water');
-      expect(inst.search).toHaveBeenCalledWith('http://my.open.api/datasets.json?q=water&per_page=5&sort_by=relevance&group_id=abc123&fields=id,name,foo,bar');
+      expect(inst.search).toHaveBeenCalledWith('http://opendata.arcgis.com/datasets.json?q=water&per_page=5&sort_by=relevance&group_id=abc123&fields=id,name,foo,bar');
       expect(inst.handleResults).toHaveBeenCalled();
       expect(inst.insertResults).toHaveBeenCalled();
 
